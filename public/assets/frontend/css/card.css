@@ -1,0 +1,33 @@
+.card-custom {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+
+.card-custom a {
+  text-decoration: none;
+  color: #1a1b22; }
+
+.card-custom img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px; }
+
+.card-custom .card-body {
+  padding: 1.25rem; }
+
+.card-custom .card-title {
+  font-size: 1.25rem; }
+
+.card-custom .card-text {
+  font-size: 0.875rem; }
+
+.card-title, .card-address {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 1em;
+  line-height: 1em; }
+
+@media (max-width: 768px) {
+  .card-custom {
+    margin: 1rem; } }

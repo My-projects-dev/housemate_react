@@ -1,0 +1,91 @@
+body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+nav ul li .language-dropdown li {
+  margin: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  background-color: #007BFF;
+  color: #fff;
+  text-align: center;
+  padding-top: 5px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+.carts img {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  width: 100%;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+.contact-form button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.add-announcement-btn {
+  background-color: #007BFF;
+  border-color: white;
+  margin-top: 10px;
+}
+
+#announcement-form {
+  margin-top: 40px;
+  background-color: #007BFF;
+  text-align: start;
+}
+
+/*# sourceMappingURL=all.css.map */
