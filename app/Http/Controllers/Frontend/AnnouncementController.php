@@ -37,21 +37,11 @@ class AnnouncementController extends Controller
                 }
             });
 
-//            return response()->json([
-//                'success' => true,
-//                'message' => 'Duyuru başarıyla oluşturuldu.',
-//            ]);
-
             return redirect()->back()->with('success', 'Announcement created successfully!');
         } catch (\Exception $e) {
-            Log::error('Duyuru kaydedilemedi: ' . $e->getMessage());
+            Log::error('Failed to create announcement: ' . $e->getMessage());
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Duyuru kaydedilirken bir hata oluştu.',
-            ], 500);
-
-//            return redirect()->back()->with('error', 'Failed to create announcement.');
+            return redirect()->back()->with('error', 'Failed to create announcement.');
         }
     }
 }

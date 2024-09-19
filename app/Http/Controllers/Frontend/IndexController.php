@@ -11,9 +11,14 @@ class IndexController extends Controller
 {
     public function index($language='en')
     {
-        $announcements = Announcement::where('language', $language)->get();
+        $announcements = Announcement::with('images')->where('language', $language)->latest()->get();
         return Inertia::render('Home', [
             'announcements' => $announcements,
         ]);
+    }
+
+    public function announcements($language)
+    {
+        return Announcement::with('images')->where('language', $language)->latest()->get();
     }
 }

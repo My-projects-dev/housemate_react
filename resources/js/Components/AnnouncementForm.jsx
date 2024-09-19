@@ -53,22 +53,22 @@ const AnnouncementForm = () => {
             setRepair('');
             setAddress('');
             setHomeType('');
-            setCurrency('');
-            setDuration('');
             setRoomCount('');
             setNumberPeople('');
-            setCountryPhoneCode('');
             setNumberInhabitants('');
         }
 
         if (type === 'roommate') {
             setShowRoommateFields(true);
+            setHomeType('repair_old');
+
         } else if (type === 'rent') {
             setShowHomeField(true);
             setShowRoommateFields(false);
 
             setAgeMin('');
             setAgeMax('');
+            setHome('yes_home');
         }
 
         if (home_type === 'courtyard_house') {
@@ -144,7 +144,7 @@ const AnnouncementForm = () => {
         });
 
         try {
-            const response = await axios.post('/announcements', formData);
+            const response = await axios.post('/announcement', formData);
 
             Swal.fire({
                 icon: 'success',
@@ -152,7 +152,7 @@ const AnnouncementForm = () => {
                 text: 'Your message has been sent successfully!',
             }).then(() => {
                 resetForm();
-                setIsSubmitting(false);
+                // window.location.reload();
             });
 
         } catch (error) {
@@ -165,7 +165,7 @@ const AnnouncementForm = () => {
                     text: error,
                 });
             }
-
+        } finally {
             setIsSubmitting(false);
         }
     };
@@ -302,7 +302,7 @@ const AnnouncementForm = () => {
                             <div className="col-md-6 mb-4">
                                 <div className="row">
                                     <div className="col-4" ref={errors.price ? firstErrorRef : null}>
-                                        <label htmlFor="price" className="form-label">Qiymət</label>
+                                        <label htmlFor="price" className="form-label">Qiymət*</label>
                                         <input type="number" min="0" id="price"
                                                className={`form-control ${errors.price ? 'is-invalid' : ''}`}
                                                placeholder="Qiymət"
@@ -392,7 +392,7 @@ const AnnouncementForm = () => {
                             </div>
 
                             <div className="col-md-6 mb-4" ref={Object.keys(errors).some(key => key.startsWith('images')) ? firstErrorRef : null}>
-                                <label htmlFor="images" className="form-label">Elanın şəkli</label>
+                                <label htmlFor="images" className="form-label">Elanın şəkli*</label>
                                 <input type="file" id="images" accept="image/*"
                                        className={`form-control ${Object.keys(errors).some(key => key.startsWith('images')) ? 'is-invalid' : ''}`}
                                        name="images[]"

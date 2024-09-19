@@ -40,7 +40,7 @@ class AnnouncementRequest extends FormRequest
             'area' => 'nullable|integer|max:999999',
             'repair' => 'nullable|in:"repaired", "unrepaired"',
             'room_count' => 'nullable|integer|max:50',
-            'price' => 'nullable|integer',
+            'price' => 'required|integer',
             'currency' => 'required|string|exists:languages,currency',
             'duration' => 'nullable|in:"Diary", "Weekly","Monthly","Yearly"',
             'age_min' => 'nullable|min:1|max:3',
@@ -51,14 +51,17 @@ class AnnouncementRequest extends FormRequest
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'comment' => 'nullable|string|max:65535',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp,jfif|max:2048',
+            'images' => 'required',
+            'images.*' => 'image|mimes:jpeg,png,jpg,svg,webp,jfif|max:2048',
         ];
 
         if ($this->home === 'no_home') {
             $return[] = [
+                'price' => 'nullable|integer',
                 'address' => 'nullable|string|max:555',
                 'home_type' => 'nullable|in:"repair_old","repair_new","courtyard_house"',
                 'currency' => 'nullable|string|exists:languages,currency',
+                'images' => 'filled',
             ];
         }
         return Arr::collapse($return);

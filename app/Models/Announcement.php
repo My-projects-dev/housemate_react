@@ -15,12 +15,16 @@ class Announcement extends Model
     protected $fillable = ['user_id','slug','status','country','language','type','home','title','address','home_type','floor','area','repair','room_count',
         'price','currency','duration','age_min','age_max','number_people','number_inhabitants','country_phone_code','phone','email','comment'];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+    ];
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);
     }
 
-    public function announcementImage(): HasMany
+    public function images(): HasMany
     {
         return $this->hasMany(AnnouncementImage::class, 'announcement_id', 'id');
     }

@@ -36,12 +36,14 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () 
 //
 
 // routes/web.php
-Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+Route::post('/announcement', [AnnouncementController::class, 'store'])->name('announcement.store');
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+
 
 Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
     Route::fallback(fn() => redirect(route('home')));
     Route::get('/', [IndexController::class, 'index'])->name('home');
+    Route::get('/announcements', [IndexController::class, 'announcements'])->name('home.announcements');
     Route::get('/housemate', [HousemateController::class, 'index'])->name('housemate');
     Route::get('/rentals', [RentalController::class, 'index'])->name('rentals');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
