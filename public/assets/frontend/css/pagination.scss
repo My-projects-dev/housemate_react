@@ -1,0 +1,57 @@
+/* Desktop styles - show text and hide icons */
+@media (min-width: 768px) {
+    .pagination-icon {
+        display: none; /* Hide icons on desktop */
+    }
+
+    .pagination-text {
+        display: inline-block; /* Show text on desktop */
+    }
+}
+
+/* Mobile styles - show icons and hide text */
+@media (max-width: 767px) {
+    .pagination-icon {
+        display: inline-block; /* Show icons on mobile */
+        font-size: 18px; /* Adjust icon size for mobile */
+    }
+
+    .pagination-text {
+        display: none; /* Hide text on mobile */
+    }
+}
+
+/* General pagination styles */
+.pagination-wrapper {
+    overflow-x: auto; /* Prevent horizontal scrolling */
+
+    .pagination {
+        justify-content: center;
+        margin-top: 4px;
+    }
+}
+
+.page-link {
+    padding: 8px 12px; /* Standard padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px; /* Space between icon and text */
+
+    &:hover {
+        text-decoration: none; /* Remove underline on hover */
+    }
+
+    /* Disabled state */
+    &.disabled {
+        opacity: 0.5; /* Reduce opacity for disabled buttons */
+        pointer-events: none; /* Prevent click on disabled buttons */
+    }
+}
+
+.page-item {
+    &.disabled .page-link {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}

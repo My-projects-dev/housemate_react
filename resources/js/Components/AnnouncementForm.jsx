@@ -20,7 +20,7 @@ const AnnouncementForm = () => {
     const [room_count, setRoomCount] = useState('');
     const [price, setPrice] = useState('');
     const [currency, setCurrency] = useState(availableLanguages[0]?.currency || '');
-    const [duration, setDuration] = useState('');
+    const [duration, setDuration] = useState('Monthly');
     const [age_min, setAgeMin] = useState('');
     const [age_max, setAgeMax] = useState('');
     const [phone, setPhone] = useState('');
@@ -69,6 +69,8 @@ const AnnouncementForm = () => {
             setAgeMin('');
             setAgeMax('');
             setHome('yes_home');
+            setHomeType('repair_old');
+
         }
 
         if (home_type === 'courtyard_house') {

@@ -1,7 +1,7 @@
 .card-custom {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 450px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -31,7 +31,7 @@
     .card-address {
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         overflow: hidden;
         text-overflow: ellipsis;
     }
