@@ -3,7 +3,7 @@ import {usePage} from "@inertiajs/react";
 import Swal from 'sweetalert2';
 import axios from "axios";
 
-const AnnouncementForm = () => {
+const AnnouncementForm = ({ toggleFormVisibility }) => {
     const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const {trans, availableLanguages, auth, language} = usePage().props;
     const firstErrorRef = useRef(null);
@@ -322,7 +322,8 @@ const AnnouncementForm = () => {
                                                 <option key={index} value={lang.currency}>{lang.currency}</option>
                                             ))}
                                         </select>
-                                        {errors.currency && <div className="invalid-feedback">{errors.currency[0]}</div>}
+                                        {errors.currency &&
+                                            <div className="invalid-feedback">{errors.currency[0]}</div>}
                                     </div>
 
                                     <div className="col-4" ref={errors.duration ? firstErrorRef : null}>
@@ -335,7 +336,8 @@ const AnnouncementForm = () => {
                                             <option value="Monthly">Aylıq</option>
                                             <option value="Yearly">İllik</option>
                                         </select>
-                                        {errors.duration && <div className="invalid-feedback">{errors.duration[0]}</div>}
+                                        {errors.duration &&
+                                            <div className="invalid-feedback">{errors.duration[0]}</div>}
                                     </div>
                                 </div>
                             </div>
@@ -352,7 +354,8 @@ const AnnouncementForm = () => {
                                                        placeholder="Minimum"
                                                        value={age_min}
                                                        onChange={(e) => setAgeMin(e.target.value)}/>
-                                                {errors.age_min && <div className="invalid-feedback">{errors.age_min[0]}</div>}
+                                                {errors.age_min &&
+                                                    <div className="invalid-feedback">{errors.age_min[0]}</div>}
                                             </div>
                                             <div className="col-6" ref={errors.age_max ? firstErrorRef : null}>
                                                 <input type="number" min={age_min ? age_min : 10} max="200" step="1"
@@ -362,7 +365,8 @@ const AnnouncementForm = () => {
                                                        placeholder="Maksimum"
                                                        value={age_max}
                                                        onChange={(e) => setAgeMax(e.target.value)}/>
-                                                {errors.age_max && <div className="invalid-feedback">{errors.age_max[0]}</div>}
+                                                {errors.age_max &&
+                                                    <div className="invalid-feedback">{errors.age_max[0]}</div>}
                                             </div>
                                         </div>
                                     </div>
@@ -377,7 +381,8 @@ const AnnouncementForm = () => {
                                        placeholder="Adam sayı"
                                        value={number_people}
                                        onChange={(e) => setNumberPeople(e.target.value)}/>
-                                {errors.number_people && <div className="invalid-feedback">{errors.number_people[0]}</div>}
+                                {errors.number_people &&
+                                    <div className="invalid-feedback">{errors.number_people[0]}</div>}
                             </div>
 
 
@@ -390,10 +395,12 @@ const AnnouncementForm = () => {
                                        placeholder="Adam sayı"
                                        value={number_inhabitants}
                                        onChange={(e) => setNumberInhabitants(e.target.value)}/>
-                                {errors.number_inhabitants && <div className="invalid-feedback">{errors.number_inhabitants[0]}</div>}
+                                {errors.number_inhabitants &&
+                                    <div className="invalid-feedback">{errors.number_inhabitants[0]}</div>}
                             </div>
 
-                            <div className="col-md-6 mb-4" ref={Object.keys(errors).some(key => key.startsWith('images')) ? firstErrorRef : null}>
+                            <div className="col-md-6 mb-4"
+                                 ref={Object.keys(errors).some(key => key.startsWith('images')) ? firstErrorRef : null}>
                                 <label htmlFor="images" className="form-label">Elanın şəkli*</label>
                                 <input type="file" id="images" accept="image/*"
                                        className={`form-control ${Object.keys(errors).some(key => key.startsWith('images')) ? 'is-invalid' : ''}`}
@@ -422,10 +429,12 @@ const AnnouncementForm = () => {
                                         value={country_phone_code}
                                         onChange={(e) => setCountryPhoneCode(e.target.value)}>
                                     {availableLanguages.map((lang, index) => (
-                                        <option key={index} value={lang.country_phone_code}>{lang.country_phone_code}</option>
+                                        <option key={index}
+                                                value={lang.country_phone_code}>{lang.country_phone_code}</option>
                                     ))}
                                 </select>
-                                {errors.country_phone_code && <div className="invalid-feedback">{errors.country_phone_code[0]}</div>}
+                                {errors.country_phone_code &&
+                                    <div className="invalid-feedback">{errors.country_phone_code[0]}</div>}
                             </div>
                             <div className="col-9" ref={errors.phone ? firstErrorRef : null}>
                                 <label htmlFor="phone" className="form-label">Telefon nömrəsi*</label>
@@ -468,10 +477,14 @@ const AnnouncementForm = () => {
                     </div>
 
                     <div className="col-md-12">
-                        <button type="submit" className="btn btn-primary add-announcement-btn my-4" disabled={isSubmitting}> {isSubmitting ? 'Göndərilir...' : 'Göndər'}</button>
+                        <button type="submit" className="btn btn-primary add-announcement-btn my-4"
+                                disabled={isSubmitting}> {isSubmitting ? 'Göndərilir...' : 'Göndər'}</button>
                     </div>
                 </div>
             </form>
+            <button className="close-form-btn" title={trans.close || 'Close'} onClick={toggleFormVisibility}>
+                <i className="fa fa-times"></i>
+            </button>
         </div>
     );
 };

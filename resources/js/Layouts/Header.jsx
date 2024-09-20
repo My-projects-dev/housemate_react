@@ -7,6 +7,7 @@ function Header() {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const {trans, language, availableLanguages, auth} = usePage().props;
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -16,14 +17,22 @@ function Header() {
         if (auth.user) {
             setIsFormVisible(!isFormVisible);
         } else {
-            router.visit(route('login', { language }));
+            router.visit(route('login', {language}));
         }
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
     };
 
     return (
         <header>
-            <h1 className="font-bold">Housemate Finder</h1>
-            <nav>
+            <div className="d-flex">
+                <button className="hamburger" onClick={toggleMenu}>&#9776;</button>
+                <h1 className="font-bold flex-grow-1">Housemate Finder</h1>
+            </div>
+
+            <nav className={isMenuOpen ? 'open' : ''}>
                 <ul>
                     <li><Link href={route('home', [language])}>{trans.home || 'Home'}</Link></li>
                     <li><Link href={route('housemate', [language])}>{trans.housemate || 'Housemate'}</Link></li>
@@ -35,7 +44,8 @@ function Header() {
                     ) : (
                         <>
                             <li><Link href={route('login', [language])}>{trans.login || 'Login'}</Link></li>
-                            <li><Link href={route('register', [language])}>{trans.register || 'Register'}</Link></li>
+                            <li><Link href={route('register', [language])}>{trans.register || 'Register'}</Link>
+                            </li>
                         </>
                     )}
                     <li className="relative">
@@ -66,8 +76,7 @@ function Header() {
                         onClick={toggleFormVisibility}>
                     <i className="fa fa-plus"></i> {trans.new_announcement || 'New announcement'}
                 </button>
-                {isFormVisible && <AnnouncementForm/>}
-                {/*{<AnnouncementForm/>}*/}
+                {isFormVisible && <AnnouncementForm toggleFormVisibility={toggleFormVisibility}/>}
             </nav>
         </header>
     );
