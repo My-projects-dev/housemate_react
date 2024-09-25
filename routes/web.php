@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetLanguage;
 use Illuminate\Foundation\Application;
+
+use App\Http\Controllers\Frontend\DashboardController as Dashboard;
 use App\Http\Controllers\Frontend\AnnouncementController;
 use App\Http\Controllers\Frontend\HousemateController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -38,21 +40,25 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth:admin'], function () 
 // routes/web.php
 Route::post('/announcement', [AnnouncementController::class, 'store'])->name('announcement.store');
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/announcement/status/{id}', [AnnouncementController::class, 'changeStatus'])->name('announcement.changeStatus');
+Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy'])->name('announcement.destroy');
+
 
 
 Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
     Route::fallback(fn() => redirect(route('home')));
     Route::get('/', [IndexController::class, 'index'])->name('home');
-    Route::get('/announcements', [IndexController::class, 'announcements'])->name('home.announcements');
+    Route::match(['get', 'post'], '/search', [IndexController::class, 'search'])->name('search');
+    Route::get('/announcement/{slug}', [IndexController::class, 'show'])->name('announcement.detail');
     Route::get('/housemate', [HousemateController::class, 'index'])->name('housemate');
     Route::get('/rentals', [RentalController::class, 'index'])->name('rentals');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
+
+//    Route::get('/announcements', [IndexController::class, 'announcements'])->name('home.announcements');
 //    Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

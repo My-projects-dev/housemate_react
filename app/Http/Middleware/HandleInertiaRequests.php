@@ -32,7 +32,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $translations = json_decode(file_get_contents(resource_path('lang/' . App::getLocale() . '.json')), true);
+//        $translations = json_decode(file_get_contents(resource_path('lang/' . App::getLocale() . '.json')), true);
 
         $languages = Cache::rememberForever('active_languages', function () {
             return collect(Language::active()->get());
@@ -44,7 +44,8 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
 
-            'trans' => $translations,
+            'trans.frontend' => __('frontend'),
+            'trans.pagination' => __('pagination'),
             'language' => App::getLocale(),
             'availableLanguages' => $languages,
 //            'availableLanguages' => config('translatable.locales'),

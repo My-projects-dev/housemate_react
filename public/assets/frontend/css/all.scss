@@ -12,7 +12,19 @@ header {
     color: #fff;
     padding: 20px;
     text-align: center;
+    box-shadow: 2px 1px 3px #678;
 
+    h1 {
+        text-shadow: 2px 1px 3px #678;
+    }
+
+    .open-announcement-btn {
+        box-shadow: 2px 1px 3px #678;
+        background-color: #007BFF;
+        border-color: white;
+        margin-top: 10px;
+
+    }
 
     .hamburger {
         display: none;
@@ -62,19 +74,20 @@ nav {
 }
 
 
-
 main {
     padding: 20px;
 }
 
 footer {
     background-color: #007BFF;
+    box-shadow: 1px -1px 30px #8395a8;
     color: #fff;
     text-align: center;
     padding-top: 5px;
     width: 100%;
     position: fixed;
     bottom: 0;
+    z-index: 20;
 }
 
 .carts img {
@@ -105,12 +118,6 @@ footer {
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-}
-
-.add-announcement-btn {
-    background-color: #007BFF;
-    border-color: white;
-    margin-top: 10px;
 }
 
 #announcement-form {
@@ -145,13 +152,38 @@ footer {
     z-index: 20;
 }
 
+.image-gallery .image-gallery-slide img {
+    height: 500px;
+    object-fit: contain;
+}
+.fullscreen .image-gallery-slide img {
+    height: unset;
+}
+
+.detail {
+    display:flex;
+    //background: rgba(0, 0, 0, 0.5);
+
+}
+.image-carousel{
+    background: rgba(0, 0, 0, 0.8);
+
+
+}
 @media screen and (max-width: 992px) {
 
 }
 
+
+
 @media screen and (max-width: 768px) {
-
+    .add {
+        display: none;
+    }
 }
-@media screen and (max-width: 576px) {
 
+@media screen and (max-width: 576px) {
+    .table-index {
+        display: none;
+    }
 }

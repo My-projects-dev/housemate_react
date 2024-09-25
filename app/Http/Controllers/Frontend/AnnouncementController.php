@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Events\AnnouncementCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\AnnouncementRequest;
 use App\Models\Announcement;
 use App\Models\AnnouncementImage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
@@ -44,4 +44,23 @@ class AnnouncementController extends Controller
             return redirect()->back()->with('error', 'Failed to create announcement.');
         }
     }
+
+    public function changeStatus($id)
+    {
+        $announcement = Announcement::findOrFail($id);
+
+        $announcement->status = $announcement->status === '1' ? '0' : '1';
+        $announcement->save();
+
+        return response()->json(['message' => 'Status changed successfully']);
+    }
+
+    public function destroy($id)
+    {
+        $announcement = Announcement::findOrFail($id);
+        $announcement->delete();
+
+        return response()->json(['message' => 'Announcement deleted successfully']);
+    }
+
 }

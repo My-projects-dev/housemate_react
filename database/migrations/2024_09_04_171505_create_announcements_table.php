@@ -37,6 +37,8 @@ return new class extends Migration {
             $table->string('phone', 20);
             $table->string('email')->nullable();
             $table->text('comment')->nullable();
+            $table->text('comment')->nullable();
+            $table->unsignedBigInteger('views')->default(0);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

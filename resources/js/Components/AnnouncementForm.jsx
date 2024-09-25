@@ -154,7 +154,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                 text: 'Your message has been sent successfully!',
             }).then(() => {
                 resetForm();
-                // window.location.reload();
+                window.location.reload();
             });
 
         } catch (error) {
@@ -178,7 +178,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
             <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-md-6 mb-4" ref={errors.country ? firstErrorRef : null}>
-                        <label htmlFor="country" className="form-label">Select country</label>
+                        <label htmlFor="country" className="form-label">{trans.frontend.select_country || 'Select country'}</label>
                         <select className={`form-control ${errors.country ? 'is-invalid' : ''}`} id="country"
                                 name="country"
                                 value={country}
@@ -191,36 +191,36 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                     </div>
 
                     <div className="col-md-6 mb-4" ref={errors.type ? firstErrorRef : null}>
-                        <label htmlFor="type" className="form-label">Elanın növü</label>
+                        <label htmlFor="type" className="form-label">{trans.frontend.type_of_announcement || 'Type of announcement'}</label>
                         <select className={`form-control ${errors.type ? 'is-invalid' : ''}`}
                                 id="type"
                                 name="type"
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}>
-                            <option value="roommate" id="type-roommate">Otaq yoldaşı</option>
-                            <option value="rent" id="type-rent">Kirayə</option>
+                            <option value="roommate" id="type-roommate">{trans.frontend.roommate || 'Roommate'}</option>
+                            <option value="rent" id="type-rent">{trans.frontend.rent || 'Rentals'}</option>
                         </select>
                         {errors.type && <div className="invalid-feedback">{errors.type[0]}</div>}
                     </div>
 
                     {showRoommateFields && (
                         <div className="col-md-6 mb-4">
-                            <label htmlFor="home" className="form-label">Ev</label>
+                            <label htmlFor="home" className="form-label">{trans.frontend.house || 'House'}</label>
                             <select className={`form-control ${errors.home ? 'is-invalid' : ''}`}
                                     id="home"
                                     name="home"
                                     value={home}
                                     ref={errors.home ? firstErrorRef : null}
                                     onChange={(e) => setHome(e.target.value)}>
-                                <option value="yes_home" id="yes_home">Ev var</option>
-                                <option value="no_home" id="no-home">Ev yoxdur</option>
+                                <option value="yes_home" id="yes_home">{trans.frontend.yes_home || 'There is a house'}</option>
+                                <option value="no_home" id="no_home">{trans.frontend.no_home || 'There is no house'}</option>
                             </select>
                             {errors.home && <div className="invalid-feedback">{errors.home[0]}</div>}
                         </div>
                     )}
 
                     <div className="col-md-6 mb-4" ref={errors.title ? firstErrorRef : null}>
-                        <label htmlFor="title" className="form-label">Elanın başlığı*</label>
+                        <label htmlFor="title" className="form-label">{trans.frontend.title || 'Title'}*</label>
                         <input type="text" id="title"
                                className={`form-control ${errors.title ? 'is-invalid' : ''}`}
                                placeholder="Elanın başlığı"

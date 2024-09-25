@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Footer() {
+function FooterLayout() {
     return (
         <footer className="border-top ">
             <p>&copy; {new Date().getFullYear()} Roommate Finder. All rights reserved.</p>
@@ -8,4 +8,4 @@ function Footer() {
     );
 }
 
-export default Footer;
+export default FooterLayout;

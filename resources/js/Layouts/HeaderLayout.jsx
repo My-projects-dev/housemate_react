@@ -3,7 +3,7 @@ import {route} from "ziggy-js";
 import {Link, router, usePage} from '@inertiajs/react';
 import AnnouncementForm from '@/Components/AnnouncementForm.jsx';
 
-function Header() {
+function HeaderLayout() {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const {trans, language, availableLanguages, auth} = usePage().props;
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,18 +34,17 @@ function Header() {
 
             <nav className={isMenuOpen ? 'open' : ''}>
                 <ul>
-                    <li><Link href={route('home', [language])}>{trans.home || 'Home'}</Link></li>
-                    <li><Link href={route('housemate', [language])}>{trans.housemate || 'Housemate'}</Link></li>
-                    <li><Link href={route('rentals', [language])}>{trans.rent || 'Rentals'}</Link></li>
-                    <li><Link href={route('contact', [language])}>{trans.contact || 'Contact'}</Link></li>
+                    <li><Link href={route('home', [language])}>{trans.frontend.home || 'Home'}</Link></li>
+                    <li><Link href={route('housemate', [language])}>{trans.frontend.housemate || 'Housemate'}</Link></li>
+                    <li><Link href={route('rentals', [language])}>{trans.frontend.rent || 'Rentals'}</Link></li>
+                    <li><Link href={route('contact', [language])}>{trans.frontend.contact || 'Contact'}</Link></li>
 
                     {auth.user ? (
-                        <li><Link href={route('dashboard', [language])}>{trans.dashboard || 'Dashboard'}</Link></li>
+                        <li><Link href={route('dashboard', [language])}>{trans.frontend.dashboard || 'Dashboard'}</Link></li>
                     ) : (
                         <>
-                            <li><Link href={route('login', [language])}>{trans.login || 'Login'}</Link></li>
-                            <li><Link href={route('register', [language])}>{trans.register || 'Register'}</Link>
-                            </li>
+                            <li><Link href={route('login', [language])}>{trans.frontend.login || 'Login'}</Link></li>
+                            <li><Link href={route('register', [language])}>{trans.frontend.register || 'Register'}</Link></li>
                         </>
                     )}
                     <li className="relative">
@@ -53,7 +52,7 @@ function Header() {
                             className="cursor-pointer"
                             onClick={toggleDropdown}
                         >
-                            {trans.language || 'Language'}
+                            {trans.frontend.language || 'Language'}
                         </span>
                         {isDropdownOpen && (
                             <ul className="absolute left-0 border mt-2 p-1 rounded shadow bg-[#007BFF] language-dropdown">
@@ -72,9 +71,9 @@ function Header() {
                         )}
                     </li>
                 </ul>
-                <button id="toggle-form-btn" className="add-announcement-btn btn btn-primary"
+                <button id="toggle-form-btn" className="open-announcement-btn btn btn-primary"
                         onClick={toggleFormVisibility}>
-                    <i className="fa fa-plus"></i> {trans.new_announcement || 'New announcement'}
+                    <i className="fa fa-plus"></i> {trans.frontend.new_announcement || 'New announcement'}
                 </button>
                 {isFormVisible && <AnnouncementForm toggleFormVisibility={toggleFormVisibility}/>}
             </nav>
@@ -82,4 +81,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default HeaderLayout;

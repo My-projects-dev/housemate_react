@@ -53,8 +53,7 @@ const ContactForm = () => {
     };
 
     return (
-        <>
-            <section className="contact-form">
+            <section className="contact-form my-5">
                 <h2>Contact Us</h2>
 
                 {status && <p className="text-danger">{status}</p>}
@@ -106,7 +105,6 @@ const ContactForm = () => {
                     <button type="submit">Send Message</button>
                 </form>
             </section>
-        </>
     );
 };
 

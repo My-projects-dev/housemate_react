@@ -16,7 +16,7 @@
     Nav header end
 ***********************************-->
 <!--**********************************
-            Header start
+            HeaderLayout start
         ***********************************-->
 <div class="header">
     <div class="header-content">
@@ -64,5 +64,5 @@
     </div>
 </div>
 <!--**********************************
-    Header end ti-comment-alt
+    HeaderLayout end ti-comment-alt
 ***********************************-->

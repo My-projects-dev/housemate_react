@@ -1,15 +1,16 @@
 import React from 'react';
-import Header from "@/Layouts/Header.jsx";
-import Footer from "@/Layouts/Footer.jsx";
+import HeaderLayout from "@/Layouts/HeaderLayout.jsx";
+import FooterLayout from "@/Layouts/FooterLayout.jsx";
 import {Head} from "@inertiajs/react";
+import SearchLayout from "@/Layouts/SearchLayout.jsx";
 
 const MainLayout = ({ children, title='' }) => {
     return (
         <>
             <Head title={title}/>
-            <Header />
-            <main>{children}</main>
-            <Footer />
+            <HeaderLayout />
+            <>{children}</>
+            <FooterLayout />
         </>
     );
 };

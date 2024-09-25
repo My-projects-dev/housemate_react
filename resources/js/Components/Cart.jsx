@@ -1,11 +1,13 @@
 import React from 'react';
+import {Link, usePage} from "@inertiajs/react";
 
-function Cart({ announcement }) {
+function Cart({announcement}) {
+
+    const {language} = usePage().props;
     return (
-
         <div className="col-md-4 col-sm-6 mb-4">
             <div className="card card-custom">
-                <a href="#">
+                <Link href={route('announcement.detail', [language, announcement.slug])}>
                     <img
                         src={announcement.images.length > 0 && announcement.images[0].image
                             ? `/uploads/announcements/${announcement.images[0].image}`
@@ -26,13 +28,13 @@ function Cart({ announcement }) {
                             {announcement.floor && `/ mərtəbə ${announcement.floor}`}
                         </p>
                         {announcement.price && announcement.currency && ( // Only render if price and currency exist
-                            <h5 className="card-text text-end price">
+                            <h5 className="card-text text-end">
                                 {announcement.price || ''} {announcement.currency || ''}
                                 {announcement.duration && ` / ${announcement.duration.toUpperCase()}`}
                             </h5>
                         )}
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
 
