@@ -20,7 +20,7 @@ function Cart({announcement}) {
                             <p className="card-text">{announcement.created_at || ''}</p>
                         </div>
                         <h5 className="card-title">{announcement.title || ''}</h5>
-                        {/*<p className="cart-comment">{announcement.home === 'no_home' && announcement.comment}</p>*/}
+                        <p className="cart-comment">{announcement.home === 'no_home' && announcement.comment}</p>
                         <p className="card-address">{announcement.address || ''}</p>
                         <p className="card-text">
                             {announcement.room_count && `${announcement.room_count} otaq  / `}

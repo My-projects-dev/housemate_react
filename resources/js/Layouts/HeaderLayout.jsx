@@ -29,22 +29,27 @@ function HeaderLayout() {
         <header>
             <div className="d-flex">
                 <button className="hamburger" onClick={toggleMenu}>&#9776;</button>
-                <h1 className="font-bold flex-grow-1">Housemate Finder</h1>
+                <h1 className="font-bold flex-grow-1">
+                    <Link href={route('home', [language])}>Housemate Finder</Link>
+                </h1>
             </div>
 
             <nav className={isMenuOpen ? 'open' : ''}>
                 <ul>
                     <li><Link href={route('home', [language])}>{trans.frontend.home || 'Home'}</Link></li>
-                    <li><Link href={route('housemate', [language])}>{trans.frontend.housemate || 'Housemate'}</Link></li>
+                    <li><Link href={route('housemate', [language])}>{trans.frontend.housemate || 'Housemate'}</Link>
+                    </li>
                     <li><Link href={route('rentals', [language])}>{trans.frontend.rent || 'Rentals'}</Link></li>
                     <li><Link href={route('contact', [language])}>{trans.frontend.contact || 'Contact'}</Link></li>
 
                     {auth.user ? (
-                        <li><Link href={route('dashboard', [language])}>{trans.frontend.dashboard || 'Dashboard'}</Link></li>
+                        <li><Link href={route('dashboard', [language])}>{trans.frontend.dashboard || 'Dashboard'}</Link>
+                        </li>
                     ) : (
                         <>
                             <li><Link href={route('login', [language])}>{trans.frontend.login || 'Login'}</Link></li>
-                            <li><Link href={route('register', [language])}>{trans.frontend.register || 'Register'}</Link></li>
+                            <li><Link
+                                href={route('register', [language])}>{trans.frontend.register || 'Register'}</Link></li>
                         </>
                     )}
                     <li className="relative">

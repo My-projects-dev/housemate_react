@@ -41,6 +41,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
         if (home === 'yes_home') {
             setShowHomeField(true);
+            setHomeType(prevHomeType => prevHomeType || 'repair_old');
         } else if (home === 'no_home') {
             setShowHomeField(false);
 
@@ -60,7 +61,6 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
         if (type === 'roommate') {
             setShowRoommateFields(true);
-            setHomeType('repair_old');
 
         } else if (type === 'rent') {
             setShowHomeField(true);
@@ -69,8 +69,6 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
             setAgeMin('');
             setAgeMax('');
             setHome('yes_home');
-            setHomeType('repair_old');
-
         }
 
         if (home_type === 'courtyard_house') {
@@ -150,8 +148,8 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
             Swal.fire({
                 icon: 'success',
-                title: 'Message Sent',
-                text: 'Your message has been sent successfully!',
+                title: trans.frontend.messages.message_sent || 'Message Sent',
+                text: trans.frontend.messages.sent_successfully || 'Your message has been sent successfully!',
             }).then(() => {
                 resetForm();
                 window.location.reload();
@@ -163,7 +161,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
+                    title: trans.frontend.messages.error ||'Error',
                     text: error,
                 });
             }
@@ -231,7 +229,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                     {showHomeField && (
                         <>
                             <div className="col-md-6 mb-4" ref={errors.address ? firstErrorRef : null}>
-                                <label htmlFor="address" className="form-label">Ünvan*</label>
+                                <label htmlFor="address" className="form-label">{trans.frontend.address || 'Address'}*</label>
                                 <input type="text" id="address"
                                        className={`form-control ${errors.address ? 'is-invalid' : ''}`}
                                        placeholder="Ünvan"
@@ -241,13 +239,13 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                             </div>
 
                             <div className="col-md-6 mb-4" ref={errors.home_type ? firstErrorRef : null}>
-                                <label htmlFor="home_type" className="form-label">Mənzil tipi</label>
+                                <label htmlFor="home_type" className="form-label">{trans.frontend.home_type || 'Home Type'}</label>
                                 <select className={`form-control ${errors.home_type ? 'is-invalid' : ''}`}
                                         id="home_type" name="home_type" value={home_type}
                                         onChange={(e) => setHomeType(e.target.value)}>
-                                    <option value="repair_old" id="repair_old">Köhnə bina</option>
-                                    <option value="repair_new" id="repair_new">Yeni bina</option>
-                                    <option value="courtyard_house" id="courtyard_house">Həyət evi</option>
+                                    <option value="repair_old" id="repair_old">{trans.frontend.repair_old || 'Old Building'}</option>
+                                    <option value="repair_new" id="repair_new">{trans.frontend.repair_new || 'New building'}</option>
+                                    <option value="courtyard_house" id="courtyard_house">{trans.frontend.courtyard_house || 'Courtyard House'}</option>
                                 </select>
                                 {errors.home_type && <div className="invalid-feedback">{errors.home_type[0]}</div>}
                             </div>
@@ -255,7 +253,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                             {showFloorField && (
 
                                 <div className="col-md-6 mb-4 floor-field" ref={errors.floor ? firstErrorRef : null}>
-                                    <label htmlFor="floor" className="form-label">Mərtəbə</label>
+                                    <label htmlFor="floor" className="form-label">{trans.frontend.floor || 'Floor'}</label>
                                     <input type="number" id="floor"
                                            className={`form-control ${errors.floor ? 'is-invalid' : ''}`}
                                            placeholder="Mərtəbə"
@@ -269,7 +267,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                             )}
 
                             <div className="col-md-6 mb-4" ref={errors.area ? firstErrorRef : null}>
-                                <label htmlFor="area" className="form-label">Sahə (m<sup>2</sup>)</label>
+                                <label htmlFor="area" className="form-label">{trans.frontend.area || 'Area'} (m<sup>2</sup>)</label>
                                 <input type="number" min="0" max="999999" id="area"
                                        className={`form-control ${errors.area ? 'is-invalid' : ''}`} name="area"
                                        placeholder="Sahə"
@@ -279,19 +277,19 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                             </div>
 
                             <div className="col-md-6 mb-4" ref={errors.repair ? firstErrorRef : null}>
-                                <label htmlFor="repair" className="form-label">Təmir</label>
+                                <label htmlFor="repair" className="form-label">{trans.frontend.repair || 'Repair'}</label>
                                 <select className={`form-control ${errors.repair ? 'is-invalid' : ''}`} id="repair"
                                         name="repair"
                                         value={repair}
                                         onChange={(e) => setRepair(e.target.value)}>
-                                    <option value="repaired">Təmirli</option>
-                                    <option value="unrepaired">Təmirsiz</option>
+                                    <option value="repaired">{trans.frontend.repaired || 'Repaired'}</option>
+                                    <option value="unrepaired">{trans.frontend.unrepaired || 'Unrepaired'}</option>
                                 </select>
                                 {errors.repair && <div className="invalid-feedback">{errors.repair[0]}</div>}
                             </div>
 
                             <div className="col-md-6 mb-4" ref={errors.room_count ? firstErrorRef : null}>
-                                <label htmlFor="number_room" className="form-label">Otaq sayı</label>
+                                <label htmlFor="number_room" className="form-label">{trans.frontend.number_room || 'Room Number'}</label>
                                 <input type="number" min="0" max="50" id="number_room"
                                        className={`form-control ${errors.room_count ? 'is-invalid' : ''}`}
                                        name="room_count"
@@ -304,7 +302,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                             <div className="col-md-6 mb-4">
                                 <div className="row">
                                     <div className="col-4" ref={errors.price ? firstErrorRef : null}>
-                                        <label htmlFor="price" className="form-label">Qiymət*</label>
+                                        <label htmlFor="price" className="form-label">{trans.frontend.price || 'Price'}*</label>
                                         <input type="number" min="0" id="price"
                                                className={`form-control ${errors.price ? 'is-invalid' : ''}`}
                                                placeholder="Qiymət"
@@ -314,7 +312,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                     </div>
 
                                     <div className="col-4" ref={errors.currency ? firstErrorRef : null}>
-                                        <label htmlFor="currency" className="form-label">Valyuta</label>
+                                        <label htmlFor="currency" className="form-label">{trans.frontend.currency || 'Currency'}</label>
                                         <select className={`form-control ${errors.currency ? 'is-invalid' : ''}`}
                                                 id="currency" name="currency" value={currency}
                                                 onChange={(e) => setCurrency(e.target.value)}>
@@ -327,17 +325,16 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                     </div>
 
                                     <div className="col-4" ref={errors.duration ? firstErrorRef : null}>
-                                        <label htmlFor="duration" className="form-label">Müdət</label>
+                                        <label htmlFor="duration" className="form-label">{trans.frontend.duration || 'Duration'}</label>
                                         <select className={`form-control ${errors.duration ? 'is-invalid' : ''}`}
                                                 id="duration" name="duration" value={duration}
                                                 onChange={(e) => setDuration(e.target.value)}>
-                                            <option value="Diary">Günlük</option>
-                                            <option value="Weekly">Həftəlik</option>
-                                            <option value="Monthly">Aylıq</option>
-                                            <option value="Yearly">İllik</option>
+                                            <option value="Diary">{trans.frontend.diary || 'Diary'}</option>
+                                            <option value="Weekly">{trans.frontend.weekly || 'Weekly'}</option>
+                                            <option value="Monthly">{trans.frontend.monthly || 'Monthly'}</option>
+                                            <option value="Yearly">{trans.frontend.yearly || 'Yearly'}</option>
                                         </select>
-                                        {errors.duration &&
-                                            <div className="invalid-feedback">{errors.duration[0]}</div>}
+                                        {errors.duration && <div className="invalid-feedback">{errors.duration[0]}</div>}
                                     </div>
                                 </div>
                             </div>
@@ -346,9 +343,9 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <>
                                     <div className="col-md-6 mb-4 roommate-only">
                                         <div className="row">
-                                            <label htmlFor="age_min" className="form-label">Yaş aralığı</label>
+                                            <label htmlFor="age_min" className="form-label">{trans.frontend.age_range || 'Yaş aralığı'}</label>
                                             <div className="col-6" ref={errors.age_min ? firstErrorRef : null}>
-                                                <input type="number" min="10" max="200" step="1" id="min"
+                                                <input type="number" min="1" max="200" step="1" id="min"
                                                        className={`form-control ${errors.age_min ? 'is-invalid' : ''}`}
                                                        name="age_min"
                                                        placeholder="Minimum"
@@ -373,8 +370,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 </>
                             )}
                             <div className="col-md-6 mb-4" ref={errors.number_people ? firstErrorRef : null}>
-                                <label htmlFor="number_people" className="form-label">Tələb olunan adam
-                                    sayı</label>
+                                <label htmlFor="number_people" className="form-label">{trans.frontend.number_people || 'Number of people required'}</label>
                                 <input type="number" min="1" max="100" id="number_people"
                                        className={`form-control ${errors.number_people ? 'is-invalid' : ''}`}
                                        name="number_people"
@@ -387,8 +383,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
 
                             <div className="col-md-6 mb-4" ref={errors.number_inhabitants ? firstErrorRef : null}>
-                                <label htmlFor="number_inhabitants" className="form-label">Hazırki adam
-                                    sayı</label>
+                                <label htmlFor="number_inhabitants" className="form-label">{trans.frontend.number_inhabitants || 'Current head count'}</label>
                                 <input type="number" min="1" max="100" id="number_inhabitants"
                                        className={`form-control ${errors.number_inhabitants ? 'is-invalid' : ''}`}
                                        name="number_inhabitants"
@@ -401,7 +396,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
                             <div className="col-md-6 mb-4"
                                  ref={Object.keys(errors).some(key => key.startsWith('images')) ? firstErrorRef : null}>
-                                <label htmlFor="images" className="form-label">Elanın şəkli*</label>
+                                <label htmlFor="images" className="form-label">{trans.frontend.image || 'Image'}*</label>
                                 <input type="file" id="images" accept="image/*"
                                        className={`form-control ${Object.keys(errors).some(key => key.startsWith('images')) ? 'is-invalid' : ''}`}
                                        name="images[]"
@@ -422,7 +417,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                     <div className="col-md-6 mb-4">
                         <div className="row">
                             <div className="col-3" ref={errors.country_phone_code ? firstErrorRef : null}>
-                                <label htmlFor="country_phone_code" className="form-label">Ölkə kodu</label>
+                                <label htmlFor="country_phone_code" className="form-label">{trans.frontend.country_code || 'Country code'}</label>
                                 <select className={`form-control ${errors.country_phone_code ? 'is-invalid' : ''}`}
                                         id="country_phone_code"
                                         name="country_phone_code"
@@ -437,7 +432,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                     <div className="invalid-feedback">{errors.country_phone_code[0]}</div>}
                             </div>
                             <div className="col-9" ref={errors.phone ? firstErrorRef : null}>
-                                <label htmlFor="phone" className="form-label">Telefon nömrəsi*</label>
+                                <label htmlFor="phone" className="form-label">{trans.frontend.phone || 'Phone number'}*</label>
                                 <input type="tel" id="phone"
                                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                                        placeholder="Telefon nömrəsi"
@@ -452,7 +447,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                     </div>
 
                     <div className="col-md-6 mb-4" ref={errors.email ? firstErrorRef : null}>
-                        <label htmlFor="email" className="form-label">E-mail</label>
+                        <label htmlFor="email" className="form-label">{trans.frontend.email || 'Email'}</label>
                         <input type="email" id="email"
                                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                                placeholder="E-mail"
@@ -465,7 +460,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
 
                     <div className="col-md-12 mb-4" ref={errors.comment ? firstErrorRef : null}>
-                        <label htmlFor="comment" className="form-label">Şərh</label>
+                        <label htmlFor="comment" className="form-label">{trans.frontend.additional_information || 'Additional information'}</label>
                         <textarea id="comment"
                                   className={`form-control ${errors.comment ? 'is-invalid' : ''}`}
                                   placeholder="Şərh yazın"
@@ -478,11 +473,11 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
                     <div className="col-md-12">
                         <button type="submit" className="btn btn-primary add-announcement-btn my-4"
-                                disabled={isSubmitting}> {isSubmitting ? 'Göndərilir...' : 'Göndər'}</button>
+                                disabled={isSubmitting}> {isSubmitting ? trans.frontend.sending : trans.frontend.send}</button>
                     </div>
                 </div>
             </form>
-            <button className="close-form-btn" title={trans.close || 'Close'} onClick={toggleFormVisibility}>
+            <button className="close-form-btn" title={trans.frontend.close || 'Close'} onClick={toggleFormVisibility}>
                 <i className="fa fa-times"></i>
             </button>
         </div>

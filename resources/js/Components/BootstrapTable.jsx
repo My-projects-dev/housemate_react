@@ -33,7 +33,14 @@ function BootstrapTable({ data, trans }) {
                     )
                 );
 
-                toast.success(trans.messages.status_changed || 'Status successfully changed!');
+                const updatedItem = tableData.find(item => item.id === id);
+                const newStatus = updatedItem.status === '1' ? '0' : '1';
+
+                if (newStatus === '1') {
+                    toast.success(trans.messages.active_announcement || 'Elanınız aktivdir');
+                } else {
+                    toast.success(trans.messages.passive_announcement || 'Elanınız passivdir');
+                }
             } else {
                 toast.error(trans.messages.failed_change_status || 'Failed to change status.');
             }
