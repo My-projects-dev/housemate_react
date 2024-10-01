@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\AnnouncementRequest;
 use App\Models\Announcement;
 use App\Models\AnnouncementImage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -47,7 +48,8 @@ class AnnouncementController extends Controller
 
     public function changeStatus($id)
     {
-        $announcement = Announcement::findOrFail($id);
+        $userId = Auth::id();
+        $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
 
         $announcement->status = $announcement->status === '1' ? '0' : '1';
         $announcement->save();
@@ -57,7 +59,9 @@ class AnnouncementController extends Controller
 
     public function destroy($id)
     {
-        $announcement = Announcement::findOrFail($id);
+        $userId = Auth::id();
+
+        $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
         $announcement->delete();
 
         return response()->json(['message' => 'Announcement deleted successfully']);

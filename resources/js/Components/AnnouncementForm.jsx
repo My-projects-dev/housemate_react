@@ -472,7 +472,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                     </div>
 
                     <div className="col-md-12">
-                        <button type="submit" className="btn btn-primary add-announcement-btn my-4"
+                        <button type="submit" className="btn btn-primary add-announcement-btn border my-4"
                                 disabled={isSubmitting}> {isSubmitting ? trans.frontend.sending : trans.frontend.send}</button>
                     </div>
                 </div>

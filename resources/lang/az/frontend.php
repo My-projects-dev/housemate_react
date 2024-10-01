@@ -44,6 +44,7 @@ return [
     "title" => "Elanın başlığı",
     "image" => "Şəkil",
     "send" => "Göndər",
+    "send_message" => "Mesaj göndər",
     "sending" => "Göndərilir...",
     "status" => "Status",
     "actions" => "Fəaliyyətlər",

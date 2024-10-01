@@ -45,6 +45,7 @@ return [
     "title" => "Title",
     "image" => "Image",
     "send" => "Send",
+    "send_message" => "Send Message",
     "sending" => "Sending...",
     "status" => "Status",
     "actions" => "Actions",
