@@ -8,7 +8,7 @@ const SearchLayout = () => {
 
     function handleSubmit(e) {
         e.preventDefault()
-        router.post(`/${language}/search/`, {search})
+        router.get(`/${language}/search/`, {search})
     }
 
     return (

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Table, Pagination } from 'react-bootstrap';
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {Link, usePage} from "@inertiajs/react";
 
 function BootstrapTable({ data, trans }) {
+    const {language} = usePage().props;
     const [currentPage, setCurrentPage] = useState(1);
     const [tableData, setTableData] = useState(data);
     const itemsPerPage = 10;
@@ -121,8 +122,8 @@ function BootstrapTable({ data, trans }) {
                             </button>
                         </td>
                         <td>
-                            <button className="btn btn-warning mr-2 mb-2"><FaEdit /></button>
-                            <button className="btn btn-danger" onClick={() => deleteAnnouncement(item.id)}><FaTrash /></button>
+                            <Link href={route('announcement.edit', [language, item.id])} className="btn btn-warning mr-2 mb-2"><FaEdit /></Link>
+                            <button className="btn btn-danger mb-2" onClick={() => deleteAnnouncement(item.id)}><FaTrash /></button>
                         </td>
                     </tr>
                 ))}

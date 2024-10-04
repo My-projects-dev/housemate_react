@@ -1,75 +1,45 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {usePage} from "@inertiajs/react";
+import { FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
 
-const AnnouncementForm = ({ toggleFormVisibility }) => {
+
+const AnnouncementEditForm = ({announcement }) => {
     const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const {trans, availableLanguages, auth, language} = usePage().props;
+    const {trans, availableLanguages} = usePage().props;
     const firstErrorRef = useRef(null);
 
-    const [country, setCountry] = useState(availableLanguages[0]?.language || '');
-    const [type, setType] = useState('roommate');
-    const [home, setHome] = useState('yes_home');
-    const [title, setTitle] = useState('');
-    const [address, setAddress] = useState('');
-    const [repair, setRepair] = useState('repaired');
-    const [floor, setFloor] = useState('');
-    const [area, setArea] = useState('');
-    const [home_type, setHomeType] = useState('repair_old');
-    const [room_count, setRoomCount] = useState('');
-    const [price, setPrice] = useState('');
-    const [currency, setCurrency] = useState(availableLanguages[0]?.currency || '');
-    const [duration, setDuration] = useState('Monthly');
-    const [age_min, setAgeMin] = useState('');
-    const [age_max, setAgeMax] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [comment, setComment] = useState('');
-    const [number_people, setNumberPeople] = useState('');
-    const [number_inhabitants, setNumberInhabitants] = useState('');
-    const [country_phone_code, setCountryPhoneCode] = useState(availableLanguages[0]?.country_phone_code || '');
+    const [country, setCountry] = useState(announcement.country || '');
+    const [title, setTitle] = useState(announcement.title || '');
+    const [address, setAddress] = useState(announcement.address  || '');
+    const [repair, setRepair] = useState(announcement.repair  || 'repaired');
+    const [floor, setFloor] = useState(announcement.floor  || '');
+    const [area, setArea] = useState(announcement.area ||  '');
+    const [home_type, setHomeType] = useState(announcement.home_type  || 'repair_old');
+    const [room_count, setRoomCount] = useState(announcement.room_count ||  '');
+    const [price, setPrice] = useState(announcement.price ||  '');
+    const [currency, setCurrency] = useState(announcement.currency || '');
+    const [duration, setDuration] = useState(announcement.duration || 'Monthly');
+    const [age_min, setAgeMin] = useState(announcement.age_min ||  '');
+    const [age_max, setAgeMax] = useState(announcement.age_max ||  '');
+    const [phone, setPhone] = useState(announcement.phone ||  '');
+    const [email, setEmail] = useState(announcement.email ||  '');
+    const [comment, setComment] = useState(announcement.comment ||  '');
+    const [number_people, setNumberPeople] = useState(announcement.number_people ||  '');
+    const [number_inhabitants, setNumberInhabitants] = useState(announcement.number_inhabitants ||  '');
+    const [country_phone_code, setCountryPhoneCode] = useState(announcement.country_phone_code || '');
     const [images, setImages] = useState([]);
 
-    const [showRoommateFields, setShowRoommateFields] = useState(true);
-    const [showFloorField, setShowFloorField] = useState(true);
-    const [showHomeField, setShowHomeField] = useState(true);
+    const [showRoommateFields, setShowRoommateFields] = useState(announcement.type === 'roommate');
+    const [showFloorField, setShowFloorField] = useState(announcement.floor !== 'courtyard_house');
+    const [showHomeField, setShowHomeField] = useState(announcement.home === 'yes_home' );
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
+    const [imageData, setImageData] = useState(announcement.images);
 
     useEffect(() => {
-
-        if (home === 'yes_home') {
-            setShowHomeField(true);
-            setHomeType(prevHomeType => prevHomeType || 'repair_old');
-        } else if (home === 'no_home') {
-            setShowHomeField(false);
-
-            setArea('');
-            setFloor('');
-            setPrice('');
-            setEmail('');
-            setAgeMin('');
-            setAgeMax('');
-            setRepair('');
-            setAddress('');
-            setHomeType('');
-            setRoomCount('');
-            setNumberPeople('');
-            setNumberInhabitants('');
-        }
-
-        if (type === 'roommate') {
-            setShowRoommateFields(true);
-
-        } else if (type === 'rent') {
-            setShowHomeField(true);
-            setShowRoommateFields(false);
-
-            setAgeMin('');
-            setAgeMax('');
-            setHome('yes_home');
-        }
 
         if (home_type === 'courtyard_house') {
             setShowFloorField(false);
@@ -82,29 +52,12 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
             firstErrorRef.current.scrollIntoView({ behavior: 'smooth' });
         }
 
-    }, [type, home_type, home, errors]);
+    }, [ home_type,  errors]);
 
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
         setImages(files);
-    };
-
-    const resetForm = () => {
-        setTitle('');
-        setAddress('');
-        setFloor('');
-        setArea('');
-        setRoomCount('');
-        setPrice('');
-        setAgeMin('');
-        setAgeMax('');
-        setPhone('');
-        setEmail('');
-        setComment('');
-        setNumberPeople('');
-        setNumberInhabitants('');
-        setImages([]);
     };
 
     const handleSubmit = async (e) => {
@@ -114,17 +67,14 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
         const formData = new FormData();
         formData.append('_token', csrf_token);
-        formData.append('user_id', auth.user.id);
         formData.append('country', country);
-        formData.append('language', language);
-        formData.append('type', type);
-        formData.append('home', home);
         formData.append('slug', title);
         formData.append('title', title);
         formData.append('address', address);
         formData.append('repair', repair);
         formData.append('floor', floor);
         formData.append('area', area);
+        formData.append('home', announcement.home);
         formData.append('home_type', home_type);
         formData.append('room_count', room_count);
         formData.append('price', price);
@@ -144,14 +94,14 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
         });
 
         try {
-            const response = await axios.post('/announcement', formData);
+            // const response = await axios.put(`/announcement/update/${announcement.id}`, formData);
+            const response = await axios.post(`/announcement/update/${announcement.id}`, formData);
 
             Swal.fire({
                 icon: 'success',
                 title: trans.frontend.messages.success || 'Success',
-                text: trans.frontend.messages.insert_successfully || 'Announcement inserted successfully!',
+                text: trans.frontend.messages.update_successfully || 'Announcement updated successfully!',
             }).then(() => {
-                resetForm();
                 window.location.reload();
             });
 
@@ -161,8 +111,8 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: trans.frontend.messages.error ||'Error',
-                    text: error,
+                    title: trans.frontend.messages.error || 'Error',
+                    text: trans.frontend.messages.update_failed || 'Elan yenilənə bilmədi.',
                 });
             }
         } finally {
@@ -170,58 +120,67 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
         }
     };
 
+    const deleteImage = async (id) => {
+        if (window.confirm(trans.frontend.messages.sure_delete_image || "Are you sure you want to delete this image?")) {
+            try {
+                const response = await fetch(`/announcement/delete/image/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+
+                if (response.ok) {
+                    // Məlumatları yenilə
+                    setImageData((prevData) => prevData.filter((item) => item.id !== id));
+                    toast.success(trans.frontend.messages.announcement_delete_image_successfully || 'Image deleted successfully!');
+                } else {
+                    toast.error(trans.frontend.messages.announcement_failed_image_delete || 'Failed to delete image.');
+                }
+            } catch (error) {
+                console.error('Error during delete operation:', error);
+                toast.error(trans.frontend.messages.an_error || 'An error occurred.');
+            }
+        }
+    };
 
     return (
-        <div id="announcement-form">
+
+        <div>
+            <div className="mb-5 flex flex-wrap gap-4">
+                {imageData.map((img) => (
+                    <div key={img.id} className="flex flex-col items-center border p-1">
+                        <img className="w-40 h-40 object-cover" src={`/uploads/announcements/${img.image}`}
+                             alt={announcement.title}/>
+                        <button className="btn mt-2 border-none" onClick={() => deleteImage(img.id)}>
+                            <FaTimes size={24} color="red"/>
+                        </button>
+                    </div>
+                ))}
+            </div>
+
             <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-md-6 mb-4" ref={errors.country ? firstErrorRef : null}>
-                        <label htmlFor="country" className="form-label">{trans.frontend.select_country || 'Select country'}</label>
+                        <label htmlFor="country"
+                               className="form-label">{trans.frontend.select_country || 'Select country'}</label>
                         <select className={`form-control ${errors.country ? 'is-invalid' : ''}`} id="country"
                                 name="country"
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}>
                             {availableLanguages.map((lang, index) => (
-                                <option key={index} value={lang.language}>{lang.language}</option>
+                                <option key={index} value={lang.language} >{lang.language}</option>
                             ))}
                         </select>
                         {errors.country && <div className="invalid-feedback">{errors.country[0]}</div>}
                     </div>
 
-                    <div className="col-md-6 mb-4" ref={errors.type ? firstErrorRef : null}>
-                        <label htmlFor="type" className="form-label">{trans.frontend.type_of_announcement || 'Type of announcement'}</label>
-                        <select className={`form-control ${errors.type ? 'is-invalid' : ''}`}
-                                id="type"
-                                name="type"
-                                value={type}
-                                onChange={(e) => setType(e.target.value)}>
-                            <option value="roommate" id="type-roommate">{trans.frontend.roommate || 'Roommate'}</option>
-                            <option value="rent" id="type-rent">{trans.frontend.rent || 'Rentals'}</option>
-                        </select>
-                        {errors.type && <div className="invalid-feedback">{errors.type[0]}</div>}
-                    </div>
-
-                    {showRoommateFields && (
-                        <div className="col-md-6 mb-4">
-                            <label htmlFor="home" className="form-label">{trans.frontend.house || 'House'}</label>
-                            <select className={`form-control ${errors.home ? 'is-invalid' : ''}`}
-                                    id="home"
-                                    name="home"
-                                    value={home}
-                                    ref={errors.home ? firstErrorRef : null}
-                                    onChange={(e) => setHome(e.target.value)}>
-                                <option value="yes_home" id="yes_home">{trans.frontend.yes_home || 'There is a house'}</option>
-                                <option value="no_home" id="no_home">{trans.frontend.no_home || 'There is no house'}</option>
-                            </select>
-                            {errors.home && <div className="invalid-feedback">{errors.home[0]}</div>}
-                        </div>
-                    )}
-
                     <div className="col-md-6 mb-4" ref={errors.title ? firstErrorRef : null}>
                         <label htmlFor="title" className="form-label">{trans.frontend.title || 'Title'}*</label>
                         <input type="text" id="title"
                                className={`form-control ${errors.title ? 'is-invalid' : ''}`}
-                               placeholder="Elanın başlığı"
+                               placeholder={trans.frontend.title || 'Title'}
                                name="title"
                                value={title} onChange={(e) => setTitle(e.target.value)}/>
                         {errors.title && <div className="invalid-feedback">{errors.title[0]}</div>}
@@ -232,7 +191,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <label htmlFor="address" className="form-label">{trans.frontend.address || 'Address'}*</label>
                                 <input type="text" id="address"
                                        className={`form-control ${errors.address ? 'is-invalid' : ''}`}
-                                       placeholder="Ünvan"
+                                       placeholder={trans.frontend.address || 'Address'}
                                        name="address"
                                        value={address} onChange={(e) => setAddress(e.target.value)}/>
                                 {errors.address && <div className="invalid-feedback">{errors.address[0]}</div>}
@@ -243,20 +202,22 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <select className={`form-control ${errors.home_type ? 'is-invalid' : ''}`}
                                         id="home_type" name="home_type" value={home_type}
                                         onChange={(e) => setHomeType(e.target.value)}>
-                                    <option value="repair_old" id="repair_old">{trans.frontend.repair_old || 'Old Building'}</option>
-                                    <option value="repair_new" id="repair_new">{trans.frontend.repair_new || 'New building'}</option>
-                                    <option value="courtyard_house" id="courtyard_house">{trans.frontend.courtyard_house || 'Courtyard House'}</option>
+                                    <option value="repair_old"
+                                            id="repair_old">{trans.frontend.repair_old || 'Old Building'}</option>
+                                    <option value="repair_new"
+                                            id="repair_new">{trans.frontend.repair_new || 'New building'}</option>
+                                    <option value="courtyard_house"
+                                            id="courtyard_house">{trans.frontend.courtyard_house || 'Courtyard House'}</option>
                                 </select>
                                 {errors.home_type && <div className="invalid-feedback">{errors.home_type[0]}</div>}
                             </div>
 
                             {showFloorField && (
-
                                 <div className="col-md-6 mb-4 floor-field" ref={errors.floor ? firstErrorRef : null}>
                                     <label htmlFor="floor" className="form-label">{trans.frontend.floor || 'Floor'}</label>
                                     <input type="number" id="floor"
                                            className={`form-control ${errors.floor ? 'is-invalid' : ''}`}
-                                           placeholder="Mərtəbə"
+                                           placeholder={trans.frontend.floor || 'Floor'}
                                            min='1' max='255'
                                            name="floor"
                                            value={floor}
@@ -270,7 +231,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <label htmlFor="area" className="form-label">{trans.frontend.area || 'Area'} (m<sup>2</sup>)</label>
                                 <input type="number" min="0" max="999999" id="area"
                                        className={`form-control ${errors.area ? 'is-invalid' : ''}`} name="area"
-                                       placeholder="Sahə"
+                                       placeholder={trans.frontend.area || 'Area'}
                                        value={area}
                                        onChange={(e) => setArea(e.target.value)}/>
                                 {errors.area && <div className="invalid-feedback">{errors.area[0]}</div>}
@@ -293,7 +254,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <input type="number" min="0" max="50" id="number_room"
                                        className={`form-control ${errors.room_count ? 'is-invalid' : ''}`}
                                        name="room_count"
-                                       placeholder="Otaq sayı"
+                                       placeholder={trans.frontend.number_room || 'Room Number'}
                                        value={room_count}
                                        onChange={(e) => setRoomCount(e.target.value)}/>
                                 {errors.room_count && <div className="invalid-feedback">{errors.room_count[0]}</div>}
@@ -305,7 +266,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                         <label htmlFor="price" className="form-label">{trans.frontend.price || 'Price'}*</label>
                                         <input type="number" min="0" id="price"
                                                className={`form-control ${errors.price ? 'is-invalid' : ''}`}
-                                               placeholder="Qiymət"
+                                               placeholder={trans.frontend.price || 'Price'}
                                                name="price"
                                                value={price} onChange={(e) => setPrice(e.target.value)}/>
                                         {errors.price && <div className="invalid-feedback">{errors.price[0]}</div>}
@@ -348,7 +309,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                                 <input type="number" min="1" max="200" step="1" id="min"
                                                        className={`form-control ${errors.age_min ? 'is-invalid' : ''}`}
                                                        name="age_min"
-                                                       placeholder="Minimum"
+                                                       placeholder={trans.frontend.min_age || 'Minimum age'}
                                                        value={age_min}
                                                        onChange={(e) => setAgeMin(e.target.value)}/>
                                                 {errors.age_min &&
@@ -359,7 +320,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                                        id="max"
                                                        className={`form-control ${errors.age_max ? 'is-invalid' : ''}`}
                                                        name="age_max"
-                                                       placeholder="Maksimum"
+                                                       placeholder={trans.frontend.max_age || 'Maximum age'}
                                                        value={age_max}
                                                        onChange={(e) => setAgeMax(e.target.value)}/>
                                                 {errors.age_max &&
@@ -374,7 +335,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <input type="number" min="1" max="100" id="number_people"
                                        className={`form-control ${errors.number_people ? 'is-invalid' : ''}`}
                                        name="number_people"
-                                       placeholder="Adam sayı"
+                                       placeholder={trans.frontend.number_people || 'Number of people required'}
                                        value={number_people}
                                        onChange={(e) => setNumberPeople(e.target.value)}/>
                                 {errors.number_people &&
@@ -387,7 +348,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <input type="number" min="1" max="100" id="number_inhabitants"
                                        className={`form-control ${errors.number_inhabitants ? 'is-invalid' : ''}`}
                                        name="number_inhabitants"
-                                       placeholder="Adam sayı"
+                                       placeholder={trans.frontend.number_inhabitants || 'Current head count'}
                                        value={number_inhabitants}
                                        onChange={(e) => setNumberInhabitants(e.target.value)}/>
                                 {errors.number_inhabitants &&
@@ -396,7 +357,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
 
                             <div className="col-md-6 mb-4"
                                  ref={Object.keys(errors).some(key => key.startsWith('images')) ? firstErrorRef : null}>
-                                <label htmlFor="images" className="form-label">{trans.frontend.image || 'Image'}*</label>
+                                <label htmlFor="images" className="form-label">{trans.frontend.image || 'Image'}</label>
                                 <input type="file" id="images" accept="image/*"
                                        className={`form-control ${Object.keys(errors).some(key => key.startsWith('images')) ? 'is-invalid' : ''}`}
                                        name="images[]"
@@ -424,8 +385,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                         value={country_phone_code}
                                         onChange={(e) => setCountryPhoneCode(e.target.value)}>
                                     {availableLanguages.map((lang, index) => (
-                                        <option key={index}
-                                                value={lang.country_phone_code}>{lang.country_phone_code}</option>
+                                        <option key={index} value={lang.country_phone_code}>{lang.country_phone_code}</option>
                                     ))}
                                 </select>
                                 {errors.country_phone_code &&
@@ -435,7 +395,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <label htmlFor="phone" className="form-label">{trans.frontend.phone || 'Phone number'}*</label>
                                 <input type="tel" id="phone"
                                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                                       placeholder="Telefon nömrəsi"
+                                       placeholder={trans.frontend.phone || 'Phone number'}
                                        name="phone"
                                        value={phone}
                                        pattern="[0-9]*"
@@ -450,7 +410,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                         <label htmlFor="email" className="form-label">{trans.frontend.email || 'Email'}</label>
                         <input type="email" id="email"
                                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                               placeholder="E-mail"
+                               placeholder={trans.frontend.email || 'Email'}
                                name="email"
                                value={email}
                                onChange={(e) => setEmail(e.target.value)}/>
@@ -463,7 +423,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                         <label htmlFor="comment" className="form-label">{trans.frontend.additional_information || 'Additional information'}</label>
                         <textarea id="comment"
                                   className={`form-control ${errors.comment ? 'is-invalid' : ''}`}
-                                  placeholder="Şərh yazın"
+                                  placeholder={trans.frontend.additional_information || 'Additional information'}
                                   name="comment"
                                   rows="4"
                                   value={comment}
@@ -476,12 +436,10 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 disabled={isSubmitting}> {isSubmitting ? trans.frontend.sending : trans.frontend.send}</button>
                     </div>
                 </div>
+                <ToastContainer />
             </form>
-            <button className="close-form-btn" title={trans.frontend.close || 'Close'} onClick={toggleFormVisibility}>
-                <i className="fa fa-times"></i>
-            </button>
         </div>
     );
 };
 
-export default AnnouncementForm;
+export default AnnouncementEditForm;

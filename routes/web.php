@@ -42,13 +42,18 @@ Route::post('/announcement', [AnnouncementController::class, 'store'])->name('an
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/announcement/status/{id}', [AnnouncementController::class, 'changeStatus'])->name('announcement.changeStatus');
 Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy'])->name('announcement.destroy');
+Route::delete('/announcement/delete/image/{id}', [AnnouncementController::class, 'deleteImage'])->name('announcement.delete.image');
+Route::post('/announcement/update/{id}', [AnnouncementController::class, 'update'])->name('announcement.update');
+
+//Route::patch('/announcement/update/{id}', [AnnouncementController::class, 'update'])->name('announcement.update');
+
 
 
 
 Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
     Route::fallback(fn() => redirect(route('home')));
     Route::get('/', [IndexController::class, 'index'])->name('home');
-    Route::match(['get', 'post'], '/search', [IndexController::class, 'search'])->name('search');
+    Route::get('/search', [IndexController::class, 'search'])->name('search');
     Route::get('/announcement/{slug}', [IndexController::class, 'show'])->name('announcement.detail');
     Route::get('/housemate', [HousemateController::class, 'index'])->name('housemate');
     Route::get('/rentals', [RentalController::class, 'index'])->name('rentals');
@@ -59,6 +64,7 @@ Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class]
 //    Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
     Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/announcement/edit/{id}', [Dashboard::class, 'edit'])->middleware(['auth', 'verified'])->name('announcement.edit');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\AnnouncementRequest;
+use App\Http\Requests\Frontend\AnnouncementStoreRequest;
+use App\Http\Requests\Frontend\AnnouncementUpdateRequest;
 use App\Models\Announcement;
 use App\Models\AnnouncementImage;
 use Illuminate\Support\Facades\Auth;
@@ -13,29 +14,14 @@ use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
-    public function store(AnnouncementRequest $request)
+    public function store(AnnouncementStoreRequest $request)
     {
         try {
             DB::transaction(function () use ($request) {
                 $validated = $request->validated();
                 $announcement = Announcement::create($validated);
 
-                if ($request->hasFile('images')) {
-                    $images = [];
-                    foreach ($request->file('images') as $index => $file) {
-
-                        $name = time() . '_' . uniqid() . '.' . rand(1, 999999) . '.' . $file->extension();
-                        $file->move(public_path('uploads/announcements'), $name);
-
-                        $images[] = [
-                            'announcement_id' => $announcement->id,
-                            'image' => $name,
-                            'main' => $index === 0 ? 1 : '0',
-                        ];
-                    }
-
-                    AnnouncementImage::insert($images);
-                }
+                $this->insertImage($request, 'images', $announcement->id,'uploads/announcements');
             });
 
             return redirect()->back()->with('success', 'Announcement created successfully!');
@@ -67,4 +53,56 @@ class AnnouncementController extends Controller
         return response()->json(['message' => 'Announcement deleted successfully']);
     }
 
+    public function deleteImage($id)
+    {
+        try {
+            $announcement = AnnouncementImage::findOrFail($id);
+            $announcement->delete();
+            return response()->json(['message' => 'Image deleted successfully']);
+        } catch (\Exception $e) {
+            Log::error('Error deleting image: ' . $e->getMessage());
+            return response()->json(['message' => 'Failed to delete image'], 500);
+        }
+    }
+
+
+    public function update(AnnouncementUpdateRequest $request, $id)
+    {
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $validated = $request->validated();
+                $userId = Auth::id();
+                $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
+                $announcement->update($validated);
+
+                $this->insertImage($request, 'images', $id, 'uploads/announcements');
+            });
+
+            return redirect()->back()->with('success', 'Announcement updated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Failed to update announcement: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Failed to update announcement.');
+        }
+    }
+
+    private function insertImage($request, $file, $id, $fileName)
+    {
+        if ($request->hasFile($file)) {
+            $images = [];
+            foreach ($request->file($file) as $index => $file) {
+
+                $name = time() . '_' . uniqid() . '.' . rand(1, 999999) . '.' . $file->extension();
+                $file->move(public_path($fileName), $name);
+
+                $images[] = [
+                    'announcement_id' => $id,
+                    'image' => $name,
+                    'main' => $index === 0 ? 1 : '0',
+                ];
+            }
+
+            AnnouncementImage::insert($images);
+        }
+    }
 }

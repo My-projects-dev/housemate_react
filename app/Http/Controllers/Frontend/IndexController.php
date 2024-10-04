@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SearchRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,7 +23,11 @@ class IndexController extends Controller
 
     public function search(Request $request, $language)
     {
-        $name = $request->search;
+        $name = strip_tags($request->search);
+
+        if (empty(trim($name))) {
+            return redirect()->route('home');
+        }
 
         $tokens = explode(' ', $name);
 
