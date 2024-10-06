@@ -36,6 +36,7 @@ return [
     "register" => "Qeydiyyat",
     "language" => "Dil",
 
+
     "select_country" => "Ölkə seçin",
     "type_of_announcement" => "Elanın növü",
     "yes_home" => "Ev var",
