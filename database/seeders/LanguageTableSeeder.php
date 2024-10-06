@@ -12,6 +12,7 @@ class LanguageTableSeeder extends Seeder
      */
     public function run(): void
     {
+
         \DB::table('languages')->delete();
 
         \DB::table('languages')->insert(array (
