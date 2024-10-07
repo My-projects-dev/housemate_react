@@ -1,0 +1,93 @@
+.carousel-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+
+    // Main image styles
+    .main-image-wrapper {
+        position: relative;
+        max-width: 100%;
+        max-height: 400px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .main-image {
+            width: 100%;
+            max-height: 100%;
+            object-fit: cover;  // Ensure the image covers the entire space without distortion
+        }
+
+        // Arrow buttons
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+
+            &.left {
+                left: 10px;
+            }
+
+            &.right {
+                right: 10px;
+            }
+
+            &:hover {
+                color: #ccc;
+            }
+        }
+    }
+
+    // Thumbnails container
+    .thumbnails-wrapper {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        max-width: 100%;
+
+        .thumbnail {
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+
+            &.active {
+                opacity: 1;
+            }
+
+            img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover; // Ensures uniformity by covering the container while preserving aspect ratio
+            }
+        }
+    }
+
+    // Adjust for larger screens (desktop)
+    @media screen and (min-width: 1024px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .main-image-wrapper {
+            flex: 1;
+            margin-right: 20px;
+            max-width: 600px;
+            max-height: 400px;
+        }
+
+        .thumbnails-wrapper {
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+    }
+}

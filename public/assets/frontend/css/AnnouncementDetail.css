@@ -1,0 +1,74 @@
+.carousel-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-direction: column; }
+
+.carousel-wrapper .main-image-wrapper {
+  position: relative;
+  max-width: 100%;
+  max-height: 400px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px; }
+
+.carousel-wrapper .main-image-wrapper .main-image {
+  width: 100%;
+  max-height: 100%;
+  object-fit: cover; }
+
+.carousel-wrapper .main-image-wrapper .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer; }
+
+.carousel-wrapper .main-image-wrapper .arrow.left {
+  left: 10px; }
+
+.carousel-wrapper .main-image-wrapper .arrow.right {
+  right: 10px; }
+
+.carousel-wrapper .main-image-wrapper .arrow:hover {
+  color: #ccc; }
+
+.carousel-wrapper .thumbnails-wrapper {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  max-width: 100%; }
+
+.carousel-wrapper .thumbnails-wrapper .thumbnail {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s ease; }
+
+.carousel-wrapper .thumbnails-wrapper .thumbnail.active {
+  opacity: 1; }
+
+.carousel-wrapper .thumbnails-wrapper .thumbnail img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover; }
+
+@media screen and (min-width: 1024px) {
+  .carousel-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start; }
+  .carousel-wrapper .main-image-wrapper {
+    flex: 1;
+    margin-right: 20px;
+    max-width: 600px;
+    max-height: 400px; }
+  .carousel-wrapper .thumbnails-wrapper {
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 400px; } }
