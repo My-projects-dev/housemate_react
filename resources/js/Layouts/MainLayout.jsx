@@ -4,11 +4,11 @@ import FooterLayout from "@/Layouts/FooterLayout.jsx";
 import {Head} from "@inertiajs/react";
 import SearchLayout from "@/Layouts/SearchLayout.jsx";
 
-const MainLayout = ({ children, title='' }) => {
+const MainLayout = ({ children, title='', showForm=0 }) => {
     return (
         <>
             <Head title={title}/>
-            <HeaderLayout />
+            <HeaderLayout showForm={showForm}/>
             <>{children}</>
             <FooterLayout />
         </>

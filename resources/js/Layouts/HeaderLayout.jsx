@@ -1,13 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {route} from "ziggy-js";
 import {Link, router, usePage} from '@inertiajs/react';
 import AnnouncementForm from '@/Components/AnnouncementForm.jsx';
 
 function HeaderLayout() {
-    const [isFormVisible, setIsFormVisible] = useState(false);
     const {trans, language, availableLanguages, auth} = usePage().props;
+    const [isFormVisible, setIsFormVisible] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (localStorage.getItem('showForm') === 'true') {
+            setIsFormVisible(true);
+            localStorage.removeItem('showForm');
+        }
+    }, []);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -17,6 +24,7 @@ function HeaderLayout() {
         if (auth.user) {
             setIsFormVisible(!isFormVisible);
         } else {
+            localStorage.setItem('showForm', 'true');
             router.visit(route('login', {language}));
         }
     };

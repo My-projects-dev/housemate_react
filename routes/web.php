@@ -45,10 +45,6 @@ Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy'])-
 Route::delete('/announcement/delete/image/{id}', [AnnouncementController::class, 'deleteImage'])->name('announcement.delete.image');
 Route::post('/announcement/update/{id}', [AnnouncementController::class, 'update'])->name('announcement.update');
 
-//Route::patch('/announcement/update/{id}', [AnnouncementController::class, 'update'])->name('announcement.update');
-
-
-
 
 Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
     Route::fallback(fn() => redirect(route('home')));

@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
                     'name' => 'Anar',
                     'email' => 'admin@admin.az',
                     'email_verified_at' => null,
-                    'password' => '$2a$12$zvG9Z7p/fs/kB1qWIbhkj.66udPnV/rt1HL1vDCs4btdjYJAdoSDW',
+                    'password' => '$2a$12$TzrcC/Hu.6rCC7mh9zPIfO50ebX1YkQw.tt8jHf4gi3igEwn28a7u',
                     'image' => null,
                     'role' => 'admin',
                     'remember_token' => null,
