@@ -19,5 +19,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/database/seeders/AdminSeeder.php
-/database/seeders/UsersTableSeeder.php
