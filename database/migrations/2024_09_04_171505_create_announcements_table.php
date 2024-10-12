@@ -28,7 +28,7 @@ return new class extends Migration {
             $table->unsignedTinyInteger('room_count')->nullable();
             $table->integer('price')->nullable();
             $table->string('currency', 4)->nullable();
-            $table->enum('duration', ['Diary', 'Weekly', 'Monthly', 'Yearly'])->nullable();
+            $table->enum('duration', ['diary', 'weekly', 'monthly', 'yearly'])->nullable();
             $table->unsignedTinyInteger('age_min')->nullable();
             $table->unsignedTinyInteger('age_max')->nullable();
             $table->unsignedTinyInteger('number_people')->nullable();

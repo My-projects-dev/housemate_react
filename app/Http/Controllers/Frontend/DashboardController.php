@@ -23,15 +23,4 @@ class DashboardController extends Controller
             'announcements' => $announcements,
         ]);
     }
-
-    public function edit($language, $id)
-    {
-        $userId = Auth::id();
-
-        $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
-
-        return Inertia::render('AnnouncementEdit', [
-            'announcement' => $announcement,
-        ]);
-    }
 }

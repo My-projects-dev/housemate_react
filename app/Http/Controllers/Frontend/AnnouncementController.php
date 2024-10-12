@@ -11,9 +11,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AnnouncementController extends Controller
 {
+    public function __invoke(Request $request)
+    {
+        $userId = Auth::id();
+
+        $announcements = Announcement::where('user_id', $userId)->latest()->get();
+
+        return Inertia::render('MyAnnouncements', [
+            'announcements' => $announcements,
+        ]);
+    }
+
     public function store(AnnouncementStoreRequest $request)
     {
         try {
@@ -32,39 +44,17 @@ class AnnouncementController extends Controller
         }
     }
 
-    public function changeStatus($id)
-    {
-        $userId = Auth::id();
-        $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
 
-        $announcement->status = $announcement->status === '1' ? '0' : '1';
-        $announcement->save();
-
-        return response()->json(['message' => 'Status changed successfully']);
-    }
-
-    public function destroy($id)
+    public function edit($language, $id)
     {
         $userId = Auth::id();
 
         $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
-        $announcement->delete();
 
-        return response()->json(['message' => 'Announcement deleted successfully']);
+        return Inertia::render('AnnouncementEdit', [
+            'announcement' => $announcement,
+        ]);
     }
-
-    public function deleteImage($id)
-    {
-        try {
-            $announcement = AnnouncementImage::findOrFail($id);
-            $announcement->delete();
-            return response()->json(['message' => 'Image deleted successfully']);
-        } catch (\Exception $e) {
-            Log::error('Error deleting image: ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to delete image'], 500);
-        }
-    }
-
 
     public function update(AnnouncementUpdateRequest $request, $id)
     {
@@ -104,5 +94,38 @@ class AnnouncementController extends Controller
 
             AnnouncementImage::insert($images);
         }
+    }
+
+    public function destroy($id)
+    {
+        $userId = Auth::id();
+
+        $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
+        $announcement->delete();
+
+        return response()->json(['message' => 'Announcement deleted successfully']);
+    }
+
+    public function deleteImage($id)
+    {
+        try {
+            $announcement = AnnouncementImage::findOrFail($id);
+            $announcement->delete();
+            return response()->json(['message' => 'Image deleted successfully']);
+        } catch (\Exception $e) {
+            Log::error('Error deleting image: ' . $e->getMessage());
+            return response()->json(['message' => 'Failed to delete image'], 500);
+        }
+    }
+
+    public function changeStatus($id)
+    {
+        $userId = Auth::id();
+        $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();
+
+        $announcement->status = $announcement->status === '1' ? '0' : '1';
+        $announcement->save();
+
+        return response()->json(['message' => 'Status changed successfully']);
     }
 }

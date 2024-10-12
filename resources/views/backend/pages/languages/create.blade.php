@@ -30,28 +30,48 @@
 
                                     <div class="container mt-4">
 
-                                        language *<br>
-                                        <input type="text" name="language" class="form-control mb-3" required
+                                        <label for="country" class="">Country *</label>
+                                        <input type="text" name="country" class="form-control" required maxlength="40"
+                                               value="{{ old('country') }}">
+                                        @error('country')
+                                        <p class="text-danger mb-1">{{ $message }}</p>
+                                        @enderror
+
+                                        <label for="language" class="mt-3">language *</label>
+                                        <input type="text" name="language" class="form-control" required maxlength="40"
                                                 value="{{ old('language') }}">
                                         @error('language')
                                         <p class="text-danger mb-1">{{ $message }}</p>
                                         @enderror
 
-                                        Language code *<br>
-                                        <input type="text" name="lang_code" class="form-control mb-4" maxlength="3"
+                                        <label for="lang_code" class="mt-4">Language code *</label>
+                                        <input type="text" name="lang_code" class="form-control" maxlength="5" required
                                                value='{{old("lang_code")}}'>
                                         @error("lang_code")
                                         <p class="text-danger mb-1">{{ $message }}</p>
                                         @enderror
 
+                                        <label for="country_phone_code" class="mt-4">Country phone code * </label>
+                                        <input type="text" name="country_phone_code" class="form-control" maxlength="7" required
+                                               value='{{old("country_phone_code")}}'>
+                                        @error("country_phone_code")
+                                        <p class="text-danger mb-1">{{ $message }}</p>
+                                        @enderror
 
-                                        Status<br>
-                                        <select class="custom-select form-control mb-3" id="status" name="status">
+                                        <label for="flag_class" class="">Flag class *</label>
+                                        <input type="text" name="flag_class" class="form-control" required maxlength="20"
+                                               value="{{ old('flag_class') }}">
+                                        @error('flag_class')
+                                        <p class="text-danger mb-1">{{ $message }}</p>
+                                        @enderror
+
+                                        <label for="status" class="mt-4">Status</label>
+                                        <select class="custom-select form-control" id="status" name="status">
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
                                         @error('status')
-                                        <p class="text-danger mb-1">{{ $message }}</p>
+                                        <p class="text-danger  mt-4 mb-1">{{ $message }}</p>
                                         @enderror
                                         <button type="submit" class="form-control btn btn-primary mt-4">Create</button>
                                     </div>

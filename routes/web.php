@@ -10,7 +10,6 @@ use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetLanguage;
 use Illuminate\Foundation\Application;
 
-use App\Http\Controllers\Frontend\DashboardController as Dashboard;
 use App\Http\Controllers\Frontend\AnnouncementController;
 use App\Http\Controllers\Frontend\HousemateController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -45,25 +44,27 @@ Route::delete('/announcement/{id}', [AnnouncementController::class, 'destroy'])-
 Route::delete('/announcement/delete/image/{id}', [AnnouncementController::class, 'deleteImage'])->name('announcement.delete.image');
 Route::post('/announcement/update/{id}', [AnnouncementController::class, 'update'])->name('announcement.update');
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 
 Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
     Route::fallback(fn() => redirect(route('home')));
     Route::get('/', [IndexController::class, 'index'])->name('home');
-    Route::get('/search', [IndexController::class, 'search'])->name('search');
     Route::get('/announcement/{slug}', [IndexController::class, 'show'])->name('announcement.detail');
+    Route::get('/search', [IndexController::class, 'search'])->name('search');
     Route::get('/housemate', [HousemateController::class, 'index'])->name('housemate');
     Route::get('/rentals', [RentalController::class, 'index'])->name('rentals');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 //    Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
-    Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->name('dashboard');
-    Route::get('/announcement/edit/{id}', [Dashboard::class, 'edit'])->middleware(['auth', 'verified'])->name('announcement.edit');
-
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/my-announcements', AnnouncementController::class)->name('my.announcements');
+        Route::get('/announcement/edit/{id}', [AnnouncementController::class, 'edit'])->name('announcement.edit');
     });
 });
 

@@ -26,8 +26,11 @@ class LanguageRequest extends FormRequest
         $return = [];
 
         $return[] = [
-            'language' => 'required|max:30|unique:languages,language',
-            'lang_code' => 'required|max:3|unique:languages,lang_code',
+            'country_phone_code' => 'required|string|max:7',
+            'country' => 'required|max:40|string|unique:languages,country',
+            'language' => 'required|string|max:40',
+            'lang_code' => 'required|string|max:5',
+            "flag_class" => 'required|string|max:20',
             'status' => 'required|in:"0", "1"',
         ];
 
@@ -36,8 +39,11 @@ class LanguageRequest extends FormRequest
             $id = $this->route('language')['id'];
 
             $return[] = [
-                'language' => ['required', 'string','max:30', Rule::unique('languages', 'language')->ignore($id)],
-                'lang_code' => ['required', 'string','max:3', Rule::unique('languages', 'lang_code')->ignore($id)],
+                'country' => ['required', 'string','max:40', Rule::unique('languages', 'country')->ignore($id)],
+                'country_phone_code' => ['required', 'string','max:30'],
+                'language' => ['required', 'string','max:40'],
+                'lang_code' => ['required', 'string','max:5'],
+                "flag_class" => 'required|string|max:20',
                 'view' => 'filled',
             ];
         }

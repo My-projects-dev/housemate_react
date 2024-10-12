@@ -150,7 +150,7 @@ const AnnouncementEditForm = ({announcement }) => {
         <div>
             <div className="mb-5 flex flex-wrap gap-4">
                 {imageData.map((img) => (
-                    <div key={img.id} className="flex flex-col items-center border p-1">
+                    <div key={img.id} className="flex flex-col items-center border border-primary border-blue-500 p-1">
                         <img className="w-40 h-40 object-cover" src={`/uploads/announcements/${img.image}`}
                              alt={announcement.title}/>
                         <button className="btn mt-2 border-none" onClick={() => deleteImage(img.id)}>
@@ -290,10 +290,10 @@ const AnnouncementEditForm = ({announcement }) => {
                                         <select className={`form-control ${errors.duration ? 'is-invalid' : ''}`}
                                                 id="duration" name="duration" value={duration}
                                                 onChange={(e) => setDuration(e.target.value)}>
-                                            <option value="Diary">{trans.frontend.diary || 'Diary'}</option>
-                                            <option value="Weekly">{trans.frontend.weekly || 'Weekly'}</option>
-                                            <option value="Monthly">{trans.frontend.monthly || 'Monthly'}</option>
-                                            <option value="Yearly">{trans.frontend.yearly || 'Yearly'}</option>
+                                            <option value="diary">{trans.frontend.diary || 'Diary'}</option>
+                                            <option value="weekly">{trans.frontend.weekly || 'Weekly'}</option>
+                                            <option value="monthly">{trans.frontend.monthly || 'Monthly'}</option>
+                                            <option value="yearly">{trans.frontend.yearly || 'Yearly'}</option>
                                         </select>
                                         {errors.duration && <div className="invalid-feedback">{errors.duration[0]}</div>}
                                     </div>

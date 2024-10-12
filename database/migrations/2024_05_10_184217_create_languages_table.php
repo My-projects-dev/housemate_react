@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->string('language', 30)->nullable();
-            $table->string('lang_code', 3)->nullable();
-            $table->string('country_phone_code', 5)->nullable();
-            $table->string('currency', 4)->nullable();
+            $table->string('language', 40);
+            $table->string('country', 40)->unique();
+            $table->string('lang_code', 5);
+            $table->string('country_phone_code', 7);
+            $table->string('currency', 4);
+            $table->string('flag_class', 20);
             $table->bigInteger('view')->default(0)->nullable();
-            $table->enum('status',['1','0'])->default('1');
+            $table->enum('status', ['1', '0'])->default('1');
             $table->timestamps();
+
+//            $table->unique(['language', 'country', 'lang_code', 'country_phone_code', 'currency'], 'language_country_unique');
         });
     }
 

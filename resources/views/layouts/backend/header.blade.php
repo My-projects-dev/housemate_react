@@ -2,7 +2,7 @@
             Nav header start
         ***********************************-->
 <div class="nav-header">
-    <a href="{{route('dashboard')}}" class="brand-logo">
+    <a href="{{route('backend.dashboard')}}" class="brand-logo">
 
         <h1><b><i class="text-primary">Mate</i></b></h1>
     </a>

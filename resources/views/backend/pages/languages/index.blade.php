@@ -30,8 +30,10 @@
                                     id="guestTable-all">
                                     <thead>
                                     <tr>
+                                        <th>Country</th>
                                         <th>Language</th>
                                         <th>Language code</th>
+                                        <th>Phone code</th>
                                         <th>Views</th>
                                         <th>Status</th>
                                         <th class="bg-none"></th>
@@ -40,8 +42,10 @@
                                     <tbody>
                                     @foreach($languages as $language)
                                         <tr>
+                                            <td class="job-desk">{{$language->country}}</td>
                                             <td class="job-desk">{{$language->language}}</td>
                                             <td class="job-desk">{{$language->lang_code}}</td>
+                                            <td class="job-desk">{{$language->country_phone_code}}</td>
                                             <td class="job-desk">{{$language->view}}</td>
                                             <td>
                                                 <span

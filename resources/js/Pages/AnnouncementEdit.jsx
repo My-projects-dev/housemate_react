@@ -1,18 +1,14 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/react';
+import {usePage} from '@inertiajs/react';
 import AnnouncementEditForm from "@/Components/AnnouncementEditForm.jsx";
+import MainLayout from "@/Layouts/MainLayout.jsx";
 
 
 function AnnouncementEdit({ auth }) {
 
-    const {announcement} = usePage().props;
+    const {announcement, trans} = usePage().props;
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
-            <Head title="Dashboard" />
+        <MainLayout title={trans.frontend.my_announcements || 'My announcements '}>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -21,7 +17,8 @@ function AnnouncementEdit({ auth }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </MainLayout>
+
     );
 }
 export default AnnouncementEdit;

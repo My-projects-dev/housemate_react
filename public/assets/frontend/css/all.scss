@@ -157,6 +157,29 @@ footer {
     z-index: 20;
 }
 
+/* Skroll çubuğunun genişliyi */
+.language-dropdown::-webkit-scrollbar {
+    width: 8px; /* Skroll çubuğunun eni */
+}
+
+/* Skroll çubuğunun "track" hissəsi */
+.language-dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track arxa plan rəngi */
+    border-radius: 10px; /* Track kənarlarını yuvarlaqlaşdırır */
+}
+
+/* Skroll çubuğunun "thumb" hissəsi */
+.language-dropdown::-webkit-scrollbar-thumb {
+    background: #007BFF; /* Skroll çubuğunun rəngi */
+    border-radius: 10px; /* Skroll çubuğunun kənarlarını yuvarlaqlaşdırır */
+}
+
+/* Skroll çubuğunun hover effekti */
+.language-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #0056b3; /* Hover zamanı daha tünd rəng */
+}
+
+
 .image-gallery .image-gallery-slide img {
     height: 500px;
     object-fit: contain;
