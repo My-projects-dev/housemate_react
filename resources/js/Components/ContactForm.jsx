@@ -60,7 +60,7 @@ const ContactForm = () => {
 
     return (
             <section className="contact-form">
-                <h2>Contact Us</h2>
+                <h2>{trans.frontend.contact_us || 'Contact Us'}</h2>
 
                 {status && <p className="text-danger">{status}</p>}
 

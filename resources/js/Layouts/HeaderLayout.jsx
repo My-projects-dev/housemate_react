@@ -15,6 +15,10 @@ function HeaderLayout() {
             setIsFormVisible(true);
             localStorage.removeItem('showForm');
         }
+
+        if (!auth.user) {
+            setIsFormVisible(false);
+        }
     }, []);
 
     const toggleDropdown = () => {

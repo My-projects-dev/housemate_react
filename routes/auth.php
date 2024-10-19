@@ -9,33 +9,41 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\SetLanguage;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
-    Route::get('{language?}/register', [RegisteredUserController::class, 'create'])
-                ->name('register');
+Route::middleware(['guest'])->group(function () {
+    Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
+        Route::get('/register', [RegisteredUserController::class, 'create'])
+            ->name('register');
+
+        Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+            ->name('login');
+
+        Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+            ->name('password.request');
+
+        Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+            ->name('password.reset');
+    });
+
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('{language?}/login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
-
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
-
-    Route::get('{language?}/forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
 
-    Route::get('language?}/reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
-
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    Route::post('verification', [RegisteredUserController::class, 'verification'])
+        ->name('verification');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', HandleInertiaRequests::class])->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 

@@ -11,6 +11,9 @@ const MyAnnouncements = ({announcements}) => {
         <MainLayout title={trans.frontend.my_announcements || 'My announcements '}>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <p className="text-center fw-bold">
+                        {trans.frontend.deactivate_text || "The broadcast ad is deactivated after one month. You can reactivate a disabled announcement."}
+                    </p>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <BootstrapTable data={announcements} trans={trans.frontend}/>
                     </div>
