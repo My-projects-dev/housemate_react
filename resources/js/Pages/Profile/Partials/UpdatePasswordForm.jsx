@@ -1,17 +1,18 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import {useForm, usePage} from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import { toast, ToastContainer } from 'react-toastify';
+
 
 export default function UpdatePasswordForm({ className = '', lang }) {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
-
-    const { data, setData, errors, put, reset, processing, recentlySuccessful } = useForm({
+    const { data, setData, errors, post, put, reset, processing, recentlySuccessful } = useForm({
         current_password: '',
         password: '',
         password_confirmation: '',
@@ -20,9 +21,12 @@ export default function UpdatePasswordForm({ className = '', lang }) {
     const updatePassword = (e) => {
         e.preventDefault();
 
-        put(route('password.update'), {
+        post(route('password.update'), {
             preserveScroll: true,
-            onSuccess: () => reset(),
+            onSuccess: () => {
+                reset();
+                toast.success(lang.password_updated || 'Password updated successfully!');
+            },
             onError: (errors) => {
                 if (errors.password) {
                     reset('password', 'password_confirmation');
@@ -33,6 +37,8 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                     reset('current_password');
                     currentPasswordInput.current.focus();
                 }
+
+                toast.error(lang.update_failed || 'Failed to update password.');
             },
         });
     };
@@ -49,7 +55,7 @@ export default function UpdatePasswordForm({ className = '', lang }) {
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="current_password" value="Current Password" />
+                    <InputLabel htmlFor="current_password" value={lang.current_password || "Current Password"} />
 
                     <TextInput
                         id="current_password"
@@ -57,7 +63,7 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                         value={data.current_password}
                         onChange={(e) => setData('current_password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full form-control"
                         autoComplete="current-password"
                     />
 
@@ -65,7 +71,7 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password" value="New Password" />
+                    <InputLabel htmlFor="password" value={lang.new_password || "New Password"} />
 
                     <TextInput
                         id="password"
@@ -73,7 +79,7 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                         value={data.password}
                         onChange={(e) => setData('password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full form-control"
                         autoComplete="new-password"
                     />
 
@@ -81,14 +87,14 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+                    <InputLabel htmlFor="password_confirmation" value={lang.confirm_password || "Confirm Password"} />
 
                     <TextInput
                         id="password_confirmation"
                         value={data.password_confirmation}
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full form-control"
                         autoComplete="new-password"
                     />
 
@@ -96,7 +102,7 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>{lang.save || 'Save'}</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -105,10 +111,11 @@ export default function UpdatePasswordForm({ className = '', lang }) {
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">Saved.</p>
+                        <p className="text-sm text-gray-600">{lang.saved || 'Saved.'}</p>
                     </Transition>
                 </div>
             </form>
+            <ToastContainer />
         </section>
     );
 }

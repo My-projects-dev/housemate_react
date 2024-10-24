@@ -8,8 +8,7 @@ import { Transition } from '@headlessui/react';
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '', lang }) {
     const user = usePage().props.auth.user;
 
-
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+    const { data, setData,put, post, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
     });
@@ -26,17 +25,17 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <h2 className="text-lg font-medium text-gray-900">{lang.profile_info || 'Profile Information'}</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    {lang.profile_info_subtitıe || "Update your account's profile information and email address."}
+                    {lang.profile_info_subtitle || "Update your account's profile information and email address."}
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value={lang.name} />
 
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full form-control"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -48,12 +47,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value={lang.email} />
 
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full form-control"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
@@ -66,27 +65,27 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
                         <p className="text-sm mt-2 text-gray-800">
-                            Your email address is unverified.
+                            {lang.email_unverified || 'Your email address is unverified.'}
                             <Link
                                 href={route('verification.send')}
                                 method="post"
                                 as="button"
-                                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-none bg-transparent"
                             >
-                                Click here to re-send the verification email.
+                                {lang.re_send_verification || 'Click here to re-send the verification email.'}
                             </Link>
                         </p>
 
                         {status === 'verification-link-sent' && (
                             <div className="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your email address.
+                                {lang.new_verification || 'A new verification link has been sent to your email address.'}
                             </div>
                         )}
                     </div>
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>{lang.save || 'Save'}</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -95,7 +94,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">Saved.</p>
+                        <p className="text-sm text-gray-600">{lang.saved || 'Saved.'}</p>
                     </Transition>
                 </div>
             </form>

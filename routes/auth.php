@@ -43,24 +43,29 @@ Route::middleware(['guest'])->group(function () {
         ->name('verification');
 });
 
-Route::middleware(['auth', HandleInertiaRequests::class])->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-                ->name('verification.notice');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class], 'prefix' => '{language?}'], function () {
+
+        Route::get('verify-email', EmailVerificationPromptController::class)
+            ->name('verification.notice');
+
+        Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
+            ->name('password.confirm');
+    });
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-                ->middleware(['signed', 'throttle:6,1'])
-                ->name('verification.verify');
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
 
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
                 ->middleware('throttle:6,1')
                 ->name('verification.send');
 
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->name('password.confirm');
-
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('password', [PasswordController::class, 'update'])->name('password.update');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');

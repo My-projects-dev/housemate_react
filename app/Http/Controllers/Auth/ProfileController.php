@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,6 +38,10 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+//        if ($request->email == Auth::user()->email) {
+//
+//        }
+
         $request->user()->save();
 
         return Redirect::route('profile.edit');
@@ -60,4 +67,29 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+//    public function verification(Request $request)
+//    {
+//        $request->validate([
+//            'verificationCode' => ['required', function ($attribute, $value, $fail) {
+//                if ($value != session('verification_code')) {
+//                    $fail(__('frontend.unconfirmed_check_message'));
+//                }
+//            }],
+//        ]);
+//
+//        if (session('verification_code') == $request->verificationCode && now()->lt(session('verification_code_expires_at'))) {
+//
+//            $user = User::create(session('data'));
+//
+//            session()->forget(['verification_code', 'verification_code_expires_at']);
+//            session()->forget(['data', 'data_expires_at']);
+//
+//
+//            event(new Registered($user));
+//            Auth::login($user);
+//        }
+//
+//        return redirect(route('home', absolute: false));
+//    }
 }
