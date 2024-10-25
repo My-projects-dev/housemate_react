@@ -1,16 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {route} from "ziggy-js";
-import {Link, router, usePage} from '@inertiajs/react';
+import React, { useEffect, useState } from 'react';
+import { route } from "ziggy-js";
+import { Link, router, usePage } from '@inertiajs/react';
 import AnnouncementForm from '@/Components/AnnouncementForm.jsx';
 import Dropdown from "@/Components/Dropdown.jsx";
 
+
 function HeaderLayout() {
-    const {trans, language, availableLanguages, auth} = usePage().props;
+    const { trans, language, availableLanguages, auth, flash } = usePage().props;
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
+
+        // Show alert if user has not verified email
+        if (flash && flash.alert) {
+            window.alert(flash.alert);
+        }
+
         if (localStorage.getItem('showForm') === 'true') {
             setIsFormVisible(true);
             localStorage.removeItem('showForm');
@@ -19,7 +26,7 @@ function HeaderLayout() {
         if (!auth.user) {
             setIsFormVisible(false);
         }
-    }, []);
+    }, [flash]);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);

@@ -114,6 +114,7 @@ return [
         "sure_delete_image" => "Bu şəkili silmək istədiyinizə əminsinizmi?",
         "active_announcement" => "Elanınız aktivdir",
         "passive_announcement" => "Elan deaktiv edildi",
+        "please_verify" => "Bu səhifəyə daxil olmaq üçün e-poçtunuzu doğrulayın.",
         "sent_successfully" => "Mesajınız uğurla göndərildi!",
         "success" => "Uğurlu işləm",
         "insert_successfully" => "Elan uğurlu şəkildə əlavə edildi!",

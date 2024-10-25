@@ -17,6 +17,10 @@ class AnnouncementController extends Controller
 {
     public function __invoke(Request $request)
     {
+        if (!auth()->user()->hasVerifiedEmail()) {
+            return redirect()->back()->with('alert', __('frontend.messages.please_verify'));
+        }
+
         $userId = Auth::id();
 
         $announcements = Announcement::where('user_id', $userId)->latest()->get();
@@ -47,6 +51,10 @@ class AnnouncementController extends Controller
 
     public function edit($language, $id)
     {
+        if (!auth()->user()->hasVerifiedEmail()) {
+            return redirect()->back()->with('alert', __('frontend.messages.please_verify'));
+        }
+
         $userId = Auth::id();
 
         $announcement = Announcement::where(['user_id'=> $userId,'id'=> $id])->firstOrFail();

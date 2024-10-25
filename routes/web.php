@@ -62,7 +62,11 @@ Route::group(['middleware' => [SetLanguage::class, HandleInertiaRequests::class]
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     });
 
-    Route::middleware(['auth'])->group(function () {
+        Route::middleware([
+            'auth',
+//            'verified'
+        ])->group(function () {
+
         Route::get('/my-announcements', AnnouncementController::class)->name('my.announcements');
         Route::get('/announcement/edit/{id}', [AnnouncementController::class, 'edit'])->name('announcement.edit');
     });

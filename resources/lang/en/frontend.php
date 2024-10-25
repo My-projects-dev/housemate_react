@@ -115,6 +115,7 @@ return [
         "sure_delete_image" => "Are you sure you want to delete this photo?",
         "active_announcement" => "Your announcement is active",
         "passive_announcement" => "Announcement is disabled",
+        "please_verify" => "Please verify your email to access this page.",
         "sent_successfully" => "Your message has been sent successfully!",
         "success" => "Success",
         "insert_successfully" => "Announcement inserted successfully!",
