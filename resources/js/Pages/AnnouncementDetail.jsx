@@ -4,6 +4,7 @@ import {usePage} from "@inertiajs/react";
 import SearchLayout from "@/Layouts/SearchLayout.jsx";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
+import formatDate from "@/utils/formatDate.js";
 
 function AnnouncementDetail() {
     const {trans, announcement} = usePage().props;
@@ -18,30 +19,52 @@ function AnnouncementDetail() {
 
             <div className="d-md-flex my-md-5">
                 <div className="add col-2 h-100">
+                    {/*Add*/}
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 shadow">
                     {images.length > 0 &&
-                        <div className="image-carousel mb-4">
-                            <ImageGallery items={images}/>
+                        <div>
+                            <div className="image-carousel mb-4 rounded-top py-1">
+                                <ImageGallery items={images}/>
+                            </div>
+                            <div className="d-flex justify-content-between mx-2">
+                                <p className="card-text bg-dark text-white rounded px-2">
+                                    {formatDate(announcement.created_at, trans)}
+                                </p>
+                                <div>
+                                    <span className="badge bg-dark">
+                                        <i className="fa fa-eye fa-lg"> {announcement.views}</i>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
                     }
-                    <div className="my-5 mx-2">
+                    <div className="mx-2">
+
                         <h4 className="text-center">{announcement.title || ''}</h4><br/>
 
                         <div className="row">
                             <div className="col-md-6">
-                                <p><strong>{trans.frontend.type_of_announcement || 'Type of announcement'}:</strong> {announcement.type ? announcement.type.charAt(0).toUpperCase() + announcement.type.slice(1) : ''}</p>
+                                <p>
+                                    <strong>{trans.frontend.type_of_announcement || 'Type of announcement'}:</strong> {announcement.type ? announcement.type.charAt(0).toUpperCase() + announcement.type.slice(1) : ''}
+                                </p>
                                 {announcement.address && (
-                                    <p><strong>{trans.frontend.address || 'Address'}:</strong> {announcement.address}</p>
+                                    <p><strong>{trans.frontend.address || 'Address'}:</strong> {announcement.address}
+                                    </p>
                                 )}
                                 {announcement.home_type && (
-                                    <p><strong>{trans.frontend.home_type || 'Home Type'}:</strong> {announcement.home_type}</p>
+                                    <p>
+                                        <strong>{trans.frontend.home_type || 'Home Type'}:</strong> {announcement.home_type}
+                                    </p>
                                 )}
                                 {announcement.floor && (
                                     <p><strong>{trans.frontend.floor || 'Floor'}:</strong> {announcement.floor}</p>
                                 )}
                                 {announcement.area && (
-                                    <p><strong>{trans.frontend.area || 'Area'}:</strong> {announcement.area}m<sup>2</sup></p>
+                                    <p>
+                                        <strong>{trans.frontend.area || 'Area'}:</strong> {announcement.area}m<sup>2</sup>
+                                    </p>
                                 )}
                                 {announcement.repair && (
                                     <p><strong>{trans.frontend.repair || 'Repair'}:</strong> {announcement.repair}</p>
@@ -50,7 +73,9 @@ function AnnouncementDetail() {
 
                             <div className="col-md-6">
                                 {announcement.number_room && (
-                                    <p><strong>{trans.frontend.number_room || 'Room Number'}:</strong> {announcement.number_room}</p>
+                                    <p>
+                                        <strong>{trans.frontend.number_room || 'Room Number'}:</strong> {announcement.number_room}
+                                    </p>
                                 )}
                                 {announcement.price && (
                                     <p>
@@ -59,29 +84,39 @@ function AnnouncementDetail() {
                                     </p>
                                 )}
                                 {announcement.age_min && (
-                                    <p><strong>{trans.frontend.age_range || 'Yaş aralığı'}:</strong> {announcement.age_min} - {announcement.age_max || ''}</p>
+                                    <p>
+                                        <strong>{trans.frontend.age_range || 'Yaş aralığı'}:</strong> {announcement.age_min} - {announcement.age_max || ''}
+                                    </p>
                                 )}
                                 {announcement.number_people && (
-                                    <p><strong>{trans.frontend.number_people || 'Number of people required'}:</strong> {announcement.number_people}</p>
+                                    <p>
+                                        <strong>{trans.frontend.number_people || 'Number of people required'}:</strong> {announcement.number_people}
+                                    </p>
                                 )}
                                 {announcement.number_inhabitants && (
-                                    <p><strong>{trans.frontend.number_inhabitants || 'Current head count'}:</strong> {announcement.number_inhabitants}</p>
+                                    <p>
+                                        <strong>{trans.frontend.number_inhabitants || 'Current head count'}:</strong> {announcement.number_inhabitants}
+                                    </p>
                                 )}
                                 {announcement.phone && (
-                                    <p><strong>{trans.frontend.country_code || 'Country code'}:</strong> {announcement.country_phone_code || ''}{announcement.phone}</p>
+                                    <p>
+                                        <strong>{trans.frontend.country_code || 'Country code'}:</strong> {announcement.country_phone_code || ''}{announcement.phone}
+                                    </p>
                                 )}
                             </div>
                         </div>
-                        {announcement.email && <p><strong>{trans.frontend.email || 'Email'}:</strong> {announcement.email}</p>}
+                        {announcement.email &&
+                            <p><strong>{trans.frontend.email || 'Email'}:</strong> {announcement.email}</p>}
                         {announcement.comment && (
-                            <p><strong>{trans.frontend.additional_information || 'Additional information'}:</strong><br/>
+                            <p>
+                                <strong>{trans.frontend.additional_information || 'Additional information'}:</strong><br/>
                                 {announcement.comment}
                             </p>
                         )}
                     </div>
                 </div>
                 <div className="add col-2 h-100">
-
+                    {/*Add*/}
                 </div>
             </div>
         </MainLayout>

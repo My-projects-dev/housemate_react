@@ -34,6 +34,7 @@
         "@mui/material": "^6.1.1",
         "@splidejs/splide": "^4.1.4",
         "bootstrap": "^5.3.3",
+        "dayjs": "^1.11.13",
         "flag-icon-css": "^4.1.7",
         "i18next": "^23.14.0",
         "mdb-react-ui-kit": "^9.0.0",

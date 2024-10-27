@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\SearchRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -60,6 +59,14 @@ class IndexController extends Controller
 
         if ($announcement == null) {
             return redirect()->route('home');
+        }
+
+        $viewAnnouncementKey = 'announcement_viewed_' . $announcement->id;
+
+        if (!session()->has($viewAnnouncementKey)) {
+
+            $announcement->increment('views');
+            session()->put($viewAnnouncementKey, true);
         }
 
         return Inertia::render('AnnouncementDetail', [

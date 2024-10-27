@@ -43,8 +43,8 @@ class AnnouncementStoreRequest extends FormRequest
             'price' => 'required|integer',
             'currency' => 'required|string|exists:languages,currency',
             'duration' => 'required|in:"diary", "weekly","monthly","yearly"',
-            'age_min' => 'nullable|min:1|max:3',
-            'age_max' => 'nullable|min:1|max:3',
+            'age_min' => 'required|min:1|max:3',
+            'age_max' => 'required|min:1|max:3',
             'number_people' => 'nullable|min:1|max:50',
             'number_inhabitants' => 'nullable|min:0',
             'country_phone_code' => 'nullable|string|exists:languages,country_phone_code',
@@ -62,6 +62,8 @@ class AnnouncementStoreRequest extends FormRequest
                 'home_type' => 'nullable|in:"repair_old","repair_new","courtyard_house"',
                 'currency' => 'nullable|string|exists:languages,currency',
                 'duration' => 'nullable|in:"diary", "weekly","monthly","yearly"',
+                'age_min' => 'nullable|min:1|max:3',
+                'age_max' => 'nullable|min:1|max:3',
                 'images' => 'filled',
             ];
         }

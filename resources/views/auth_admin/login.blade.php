@@ -12,9 +12,6 @@
     <label for="show" class="show-btn">View Form</label>
     <div class="container">
         <label for="show" class="close-btn fas fa-times" title="close"></label>
-        <div class="text">
-            Login Form
-        </div>
         <form action="{{ route('admin.login') }}" method="POST">
             @csrf
             <div class="data">

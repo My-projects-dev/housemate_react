@@ -122,4 +122,6 @@ return [
         "message_sent" => "Mesaj Göndərildi",
         "error" => "Xəta",
     ],
+
+    "months" => ["Yan", "Fev", "Mar", "Apr", "May", "İyn", "İyl", "Avq", "Sen", "Okt", "Noy", "Dek"],
 ];

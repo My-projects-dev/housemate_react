@@ -27,6 +27,11 @@ class Announcement extends Model
         return $query->where('status', 1);
     }
 
+    public function scopePassive($query)
+    {
+        return $query->where('status', '0');
+    }
+
     public function images(): HasMany
     {
         return $this->hasMany(AnnouncementImage::class, 'announcement_id', 'id');

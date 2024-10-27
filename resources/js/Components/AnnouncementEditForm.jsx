@@ -112,7 +112,7 @@ const AnnouncementEditForm = ({announcement }) => {
                 Swal.fire({
                     icon: 'error',
                     title: trans.frontend.messages.error || 'Error',
-                    text: trans.frontend.messages.update_failed || 'Elan yenilənə bilmədi.',
+                    text: trans.frontend.messages.update_failed || 'The announcement could not be updated.',
                 });
             }
         } finally {
@@ -304,7 +304,7 @@ const AnnouncementEditForm = ({announcement }) => {
                                 <>
                                     <div className="col-md-6 mb-4 roommate-only">
                                         <div className="row">
-                                            <label htmlFor="age_min" className="form-label">{trans.frontend.age_range || 'Yaş aralığı'}</label>
+                                            <label htmlFor="age_min" className="form-label">{trans.frontend.age_range || 'Yaş aralığı'}*</label>
                                             <div className="col-6" ref={errors.age_min ? firstErrorRef : null}>
                                                 <input type="number" min="1" max="200" step="1" id="min"
                                                        className={`form-control ${errors.age_min ? 'is-invalid' : ''}`}
