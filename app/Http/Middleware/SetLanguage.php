@@ -18,8 +18,8 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        $position = Location::get($request->ip());
-        $position = Location::get('8.8.8.8');
+        $position = Location::get($request->ip());
+//        $position = Location::get('8.8.8.8');
 
         if (Session::get('language') ==null && $request->language===null && $position && isset($position->countryCode) && in_array(strtolower($position->countryCode), config('translatable.locales'))) {
 
