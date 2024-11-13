@@ -8,10 +8,16 @@ import formatDate from "@/utils/formatDate.js";
 
 function AnnouncementDetail() {
     const {trans, announcement} = usePage().props;
-    const images = announcement.images.map(img => ({
-        original: `/uploads/announcements/${img.image}`,   // Large image
-        thumbnail: `/uploads/announcements/${img.image}`   // Thumbnail
-    }));
+    const images = announcement.images && announcement.images.length > 0 ?
+        announcement.images.map(img => ({
+            original: `/uploads/announcements/${img.image}`, // Large image
+            thumbnail: `/uploads/announcements/${img.image}` // Thumbnail
+        })) :
+        [{
+            original: '/assets/frontend/img/roommate.jpg', // Default large image
+            thumbnail: '/assets/frontend/img/roommate.jpg' // Default thumbnail
+        }];
+
     console.log(images)
     return (
         <MainLayout title={announcement.title || 'Housemate'}>
@@ -21,7 +27,7 @@ function AnnouncementDetail() {
                 <div className="add col-2 h-100">
                     {/*Add*/}
                 </div>
-                <div className="col-md-8 shadow">
+                <div className="col-md-8 shadow mb-4">
                     {images.length > 0 &&
                         <div>
                             <div className="image-carousel mb-4 rounded-top py-1">
@@ -44,7 +50,7 @@ function AnnouncementDetail() {
 
                         <h4 className="text-center">{announcement.title || ''}</h4><br/>
 
-                        <div className="row">
+                        <div className="row pb-3">
                             <div className="col-md-6">
                                 <p>
                                     <strong>{trans.frontend.type_of_announcement || 'Type of announcement'}:</strong> {announcement.type ? announcement.type.charAt(0).toUpperCase() + announcement.type.slice(1) : ''}

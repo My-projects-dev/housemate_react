@@ -20,7 +20,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
     const [room_count, setRoomCount] = useState('');
     const [price, setPrice] = useState('');
     const [currency, setCurrency] = useState(availableLanguages[0]?.currency || '');
-    const [duration, setDuration] = useState('Monthly');
+    const [duration, setDuration] = useState('diary');
     const [age_min, setAgeMin] = useState('');
     const [age_max, setAgeMax] = useState('');
     const [phone, setPhone] = useState('');
@@ -53,6 +53,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
             setAgeMax('');
             setRepair('');
             setAddress('');
+            // setDuration('');
             setHomeType('');
             setRoomCount('');
             setNumberPeople('');
@@ -83,7 +84,6 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
         }
 
     }, [type, home_type, home, errors]);
-
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
@@ -170,7 +170,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
         }
     };
 
-
+console.log(errors);
     return (
         <div id="announcement-form">
             <form onSubmit={handleSubmit}>
@@ -343,7 +343,7 @@ const AnnouncementForm = ({ toggleFormVisibility }) => {
                                 <>
                                     <div className="col-md-6 mb-4 roommate-only">
                                         <div className="row">
-                                            <label htmlFor="age_min" className="form-label">{trans.frontend.age_range || 'Yaş aralığı'}</label>
+                                            <label htmlFor="age_min" className="form-label">{trans.frontend.age_range || 'Yaş aralığı'}*`</label>
                                             <div className="col-6" ref={errors.age_min ? firstErrorRef : null}>
                                                 <input type="number" min="1" max="200" step="1" id="min"
                                                        className={`form-control ${errors.age_min ? 'is-invalid' : ''}`}

@@ -48,12 +48,19 @@ class AnnouncementStoreRequest extends FormRequest
             'number_people' => 'nullable|min:1|max:50',
             'number_inhabitants' => 'nullable|min:0',
             'country_phone_code' => 'nullable|string|exists:languages,country_phone_code',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|string|max:15',
             'email' => 'nullable|email|max:255',
             'comment' => 'nullable|string|max:65535',
             'images' => 'required',
             'images.*' => 'image|mimes:jpeg,png,jpg,svg,webp,jfif|max:2048',
         ];
+
+        if ($this->type === 'rent') {
+            $return[] = [
+                'age_min' => 'nullable|min:1|max:3',
+                'age_max' => 'nullable|min:1|max:3',
+            ];
+        }
 
         if ($this->home === 'no_home') {
             $return[] = [

@@ -11,7 +11,7 @@ function Cart({ announcement }) {
                     <img
                         src={announcement.images.length > 0 && announcement.images[0].image
                             ? `/uploads/announcements/${announcement.images[0].image}`
-                            : 'https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png'}
+                            : '/assets/frontend/img/roommate.jpg'}
                         alt={announcement.title || ''}
                         className="card-img-top"
                     />
